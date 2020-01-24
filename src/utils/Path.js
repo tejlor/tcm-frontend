@@ -1,0 +1,27 @@
+export default {
+  main: "/",
+
+  basic: "/podstawowe",
+  acceptance: "/akceptacja",
+  controlling: "/kontroling",
+  dictionaries: "/slowniki",
+  myAccount: "/moje-konto",
+
+  timeEntries: "/czas-pracy",
+  creativeWorks: "/utwory",
+  leaves: "/urlopy",
+  byEmployee: "/po-pracownikach",
+  byActivity: "/po-projektach",
+  vacations: "/urlopy",
+  sicks: "/choroby-i-inne",
+  managerStats: "/statystyki-kierownikow",
+  closing: "/zamykanie-miesiaca",
+  employees: "/pracownicy",
+  projects: "/projekty",
+  holidays: "/swieta",
+  reports: "/raporty",
+  sales: "/sprzedaz-i-zaangazowanie",
+  login: "/zaloguj",
+  logOut: "/wyloguj",
+  settings: "/settings",
+};
