@@ -1,5 +1,4 @@
 import axios from "axios";
-import moment from "moment";
 import qs from "querystring";
 import { toastr } from "react-redux-toastr";
 import Path from "utils/Path";
@@ -11,6 +10,14 @@ const instance = axios.create({
   timeout: 5000
 });
 
+export default instance;
+
+export function handleGeneratedToken(data) {
+  localStorage.setItem(ACCESS_TOKEN_KEY, data.access_token);
+  localStorage.setItem(TOKEN_INFO_KEY, JSON.stringify(data));
+}
+
+// add token to request
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -24,21 +31,22 @@ instance.interceptors.request.use(
   }
 );
 
+// handle response error
 instance.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
-    if (error.response.status === 400) { // 400 - NASZ BŁĄD
+    if (error.response.status === 400) { // 400 - known exception
       handle400(error);
     }
-    else if (error.response.status === 401) { // 401 - BRAK DOSTĘPU
+    else if (error.response.status === 401) { // 401 - access denied
       return handle401(error);
     }
-    else if (error.response.status === 404) { // 404 - NIE ZNALEZIONO
+    else if (error.response.status === 404) { // 404 - not found
       handle404(error);
     }
-    else if (error.response.status === 500) { // 500 - NIEZNANY BŁĄD
+    else if (error.response.status === 500) { // 500 - unknown exception
       handle500(error);
     }
     return Promise.reject(error);
@@ -46,35 +54,35 @@ instance.interceptors.response.use(
 );
 
 function handle400(error) {
-  if (error.config.responseType === undefined) { // domyślnie = json
+  if (error.config.responseType === undefined) { // default = json
     if (error.response.data.statusCode === "BAD_REQUEST") { 
-      toastr.warning("Uwaga", error.response.data.errorMessage);  
+      toastr.warning("Warning", error.response.data.errorMessage);  
     }
     else {
-      // toastr.warning("Uwaga", "Nieznany błąd. Kod: 400");
+      // toastr.warning("Warning", "Unknown error. Code: 400");
     }
   }
-  else if(error.response.data.type === "application/json") { // ustawiony typ blob, ale może to nasz json
+  else if(error.response.data.type === "application/json") { // blob is set, but maybe it's our json
     const reader = new FileReader();
     reader.addEventListener('loadend', (e) => {
       var json = JSON.parse(e.srcElement.result);
       if (json.statusCode === "BAD_REQUEST") { 
-        toastr.warning("Uwaga", json.errorMessage);  
+        toastr.warning("Warning", json.errorMessage);  
       }
       else {
-        // toastr.warning("Uwaga", "Nieznany błąd. Kod: 400");
+         // toastr.warning("Warning", "Unknown error. Code: 400");
       }
     });
     reader.readAsText(error.response.data);
   }
   else {
-    // toastr.warning("Uwaga", "Nieznany błąd. Kod: 400");
+     // toastr.warning("Warning", "Unknown error. Code: 400");
   }
 }
 
 function handle401(error) {
   const originalReq = error.config;
-  if (!originalReq.retry) { // pierwszy raz 401 -> odświeżamy token
+  if (!originalReq.retry) { // first time -> refresh token
     var data = qs.stringify({
       grant_type: "refresh_token",
       refresh_token: JSON.parse(localStorage.getItem(TOKEN_INFO_KEY)).refresh_token 
@@ -91,11 +99,11 @@ function handle401(error) {
       retry: true
     }
 
-    return instance   // request odświeżający token... 
+    return instance   // refreshing token request... 
       .post(`oauth/token`, data, config)
       .then(res => {
         handleGeneratedToken(res.data);
-        return instance(originalReq); // ...zwraca oryginalny request
+        return instance(originalReq); // ...returns original request
       })
       .catch(err => { 
         localStorage.removeItem(ACCESS_TOKEN_KEY);
@@ -103,7 +111,7 @@ function handle401(error) {
         window.location.href = Path.myAccount + Path.login;
       });
   }
-  else {  // drugi raz 401 -> przelogowanie
+  else {  // second time -> redirect to login page
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(TOKEN_INFO_KEY);
     window.location.href = Path.myAccount + Path.login;
@@ -111,38 +119,31 @@ function handle401(error) {
 }
 
 function handle404(error) {
-  // jest ok
+  // nothing
 }
 
 function handle500(error){
-  if (error.config.responseType === undefined) { // domyślnie = json
+  if (error.config.responseType === undefined) { // default = json
     if (error.response.data.errorMessage === "Dostęp zabroniony")
-      toastr.error("Błąd", "Brak dostępu.");
+      toastr.error("Error", "Access denied.");
     else
-      toastr.error("Błąd", "Wystapił błąd. Skontaktuj się z administratorem i przekaż mu czas wystąpienia: " + error.response.data.timestamp, { timeOut: 0 });
+      toastr.error("Error", "An error occured. Please contact the administrator and give him the time: " + error.response.data.timestamp, { timeOut: 0 });
   }
-  else if(error.response.data.type === "application/json") { // ustawiony typ blob, ale może to nasz json
+  else if (error.response.data.type === "application/json") { // blob is set, but maybe it's our json
     const reader = new FileReader();
     reader.addEventListener('loadend', (e) => {
       var json = JSON.parse(e.srcElement.result);
       if (json.statusCode === "INTERNAL_SERVER_ERROR") { 
-        toastr.error("Błąd", "Wystapił błąd. Skontaktuj się z administratorem i przekaż mu czas wystąpienia: " + json.timestamp, { timeOut: 0 });
+        toastr.error("Error", "An error occured. Please contact the administrator and give him the time: " + json.timestamp, { timeOut: 0 });
       }
       else {
-        // toastr.warning("Uwaga", "Nieznany błąd. Kod: 500");
+        // toastr.warning("Warning", "Unknown error. Code: 500");
       }
     });
     reader.readAsText(error.response.data);
   }
   else {
-    // toastr.warning("Uwaga", "Nieznany błąd. Kod: 500");
+    // toastr.warning("Warning", "Unknown error. Code: 500");
   }
 }
 
-export default instance;
-
-export function handleGeneratedToken(data) {
-  data.expire_time = moment().add(data.expire_time, 's').unix();
-  localStorage.setItem(ACCESS_TOKEN_KEY, data.access_token);
-  localStorage.setItem(TOKEN_INFO_KEY, JSON.stringify(data));
-}

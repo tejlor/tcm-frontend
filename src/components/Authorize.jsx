@@ -1,39 +1,34 @@
-import * as SessionActions from "actions/session";
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import axios from "utils/Axios";
+import * as SessionActions from "actions/session";
 import Path from "utils/Path";
 import { ACCESS_TOKEN_KEY } from "utils/Utils";
+import * as AccountApi from "logic/AccountApi";
 
 
 class Authorize extends React.Component {
+  
   static defaultProps = {
   }
 
-  componentWillMount() {
-    this.validateUser();  
+  constructor(props){
+    super(props);
+    this.validateUser(); 
   }
 
-  validateUser(user = this.props.currentUser){
+  validateUser(){
     var token = localStorage.getItem(ACCESS_TOKEN_KEY);
     if (!token) {
       this.redirectToLoginPage();
     }
-    else if(!user) {
+    else if(!this.props.currentUser) {
       this.loadCurrentUser();
     }
   }
 
   loadCurrentUser() {
-    axios
-      .get(`Accounts/Current`)
-      .then((res) => {
-        this.props.doCurrentUserLoaded(res.data);
-      })
-      .catch(err => {
-        this.handleError(err);
-      });
+    AccountApi.loadCurrentUser(this.props.doCurrentUserLoaded, this.handleError);
   }
 
   handleError(err) {
@@ -48,7 +43,7 @@ class Authorize extends React.Component {
 
   render() {
     if (!this.props.currentUser)
-      return null;
+      return "Please wait...";
 
     return (
       <div>

@@ -1,7 +1,7 @@
 import moment from "moment";
-import * as React from "react";
 
 
+// Common
 
 export function null2Str(value) {
   return value ? value : "";
@@ -9,10 +9,12 @@ export function null2Str(value) {
 
 export function bool2Str(value) {
   return value !== null
-    ? (value === true ? "TAK" : "NIE")
+    ? (value === true ? "Yes" : "No")
     : "?";
 }
 
+
+// Strings
 
 export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -41,6 +43,8 @@ export function sort(a, b) {
     return 0;
 }
 
+
+// Date & Time
 
 const DATE_FORMAT = "YYYY-MM-DD";
 const TIME_FORMAT = "HH:mm";
@@ -72,11 +76,11 @@ export function formatTime(time) {
 
   var moment = timeToMoment(time);
   
-  return <span>{moment.format(DATE_FORMAT)}&nbsp;&nbsp;&nbsp;{moment.format(TIME_FORMAT)}</span>;
+  return moment.format(DATE_FORMAT) + "&nbsp;&nbsp;&nbsp" + moment.format(TIME_FORMAT);
 }
 
 export function formatPeriod(start, end) {
-  return dateToMoment(start).format("DD-MM") + " do " + dateToMoment(end).format("DD-MM");
+  return dateToMoment(start).format("DD-MM") + " to " + dateToMoment(end).format("DD-MM");
 }
 
 export function durationInDays(startDate, endDate){ 
@@ -85,17 +89,14 @@ export function durationInDays(startDate, endDate){
   return moment.duration(endMoment.diff(startMoment)).asDays() + 1;
 }
 
+
+// Constans
+
 export const TOKEN_INFO_KEY = 'tokenInfo';
 export const ACCESS_TOKEN_KEY = 'accessToken';
 
-export function calcEmployeeUrl(row, controlling) {
-  return controlling ? row.employeeId : "Current";
-}
 
-
-export const ENTRY_REGEX = /^[0-9]{1,2}([.,][0-9])?$/;
-export const ENTRY_PATTERN = "[0-9]{1,2}([.,][0-9])?";
-export const ENTRY_CHARS = /^[0-9.,]*$/;
+// Form regex
 
 export const HOURS_REGEX = /^[1-8]$/;
 export const HOURS_PATTERN = "[1-8]";

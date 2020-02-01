@@ -1,7 +1,7 @@
 import * as Action from "../actions/session";
 
 const initialState = {
-  currentUser: undefined,         // zalogowany użytkownik 
+  currentUser: undefined,         // logged user 
 };
 
 export default (state = initialState, action) => {
