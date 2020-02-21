@@ -1,7 +1,7 @@
-import EmptyPagination from "./EmptyPagination";
+import Pagination from "./Pagination";
 import * as React from "react";
 import { connect } from "react-redux";
-import ReactTable from "react-table";
+import ReactTable from "react-table-6";
 import * as Utils from "utils/Utils";
 
 
@@ -50,7 +50,7 @@ class Table extends React.Component {
             };
           else return {};
         }}
-        PaginationComponent={EmptyPagination}
+        PaginationComponent={Pagination}
       />
     );
   }

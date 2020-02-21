@@ -3,14 +3,16 @@ import ReduxToastr from "react-redux-toastr";
 import { Route, Switch} from "react-router-dom";
 
 import "App.scss";
+import "react-select-v1/dist/react-select.css";
+import "react-table-6/react-table.css";
 
 import Authorize from "components/Authorize";
-import MainPage from "components/repo/MainPage";
-import LoginPage from "components/myAccount/LoginPage";
-import LogoutPage from "components/myAccount/LogoutPage";
-import Path from "utils/Path";
 import Footer from "components/Footer";
 import Header from "components/Header";
+import LoginPage from "components/myAccount/LoginPage";
+import LogoutPage from "components/myAccount/LogoutPage";
+import MainPage from "components/repo/MainPage";
+import Path from "utils/Path";
 
 
 export default class App extends React.Component {
