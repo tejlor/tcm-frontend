@@ -1,10 +1,10 @@
+import * as SessionActions from "actions/session";
+import * as AccountApi from "logic/AccountApi";
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import * as SessionActions from "actions/session";
+import { ACCESS_TOKEN_KEY } from "utils/Constants";
 import Path from "utils/Path";
-import { ACCESS_TOKEN_KEY } from "utils/Utils";
-import * as AccountApi from "logic/AccountApi";
 
 
 class Authorize extends React.Component {

@@ -1,7 +1,14 @@
 import axios from "utils/Axios";
 
-export function children(parentRef, success){
+
+export function childrenTree(parentRef, success){
   axios
-    .get(parentRef ? `elements/{parentRef}/children` : `elements/root/children`)
+    .get(`elements/${parentRef}/childrenTree`)
+    .then((res) => success(res.data));
+}
+
+export function childrenTable(parentRef, params, success){
+  axios
+    .get(`elements/${parentRef}/childrenTable?pageNo=${params.pageNo}&pageSize=${params.pageSize}`)
     .then((res) => success(res.data));
 }

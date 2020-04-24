@@ -1,6 +1,5 @@
 @import "node_modules/react-redux-toastr/src/styles/index";
 
-
 html {
   height: 100%;
 }
@@ -14,5 +13,29 @@ body {
 .app-container {
   margin-top: 80px;
   max-width: 1400px;
+}
+
+.margin-0 {
+  margin: 0px !important;
+}
+
+%inline {
+  display: inline-block;
+  margin: 0px 8px 0px 0px;
+  width: auto;
+}
+
+.input-inline {
+  @extend %inline;
+  vertical-align: baseline;
+}
+
+.select-inline {
+  @extend %inline;
+  vertical-align: middle;
+}
+
+label.inline, .label-inline {
+  margin: 0px 8px 0px 0px;
 }
 

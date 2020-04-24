@@ -1,11 +1,11 @@
+import * as OauthApi from "logic/OauthApi";
 import * as React from "react";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { withRouter } from "react-router-dom";
 import { handleGeneratedToken} from "utils/Axios";
+import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
 import Path from "utils/Path";
-import * as OauthApi from "logic/OauthApi";
-import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Utils";
 
 import "./LoginPage.scss";
 

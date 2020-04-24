@@ -3,6 +3,7 @@ import ReduxToastr from "react-redux-toastr";
 import { Route, Switch} from "react-router-dom";
 
 import "App.scss";
+import "file-icon-vectors/dist/file-icon-classic.min.css";
 import "react-select-v1/dist/react-select.css";
 import "react-table-6/react-table.css";
 
@@ -26,7 +27,7 @@ export default class App extends React.Component {
           <Authorize>
             <Header />
             <div className="w3-content w3-container app-container">
-                <Route path={Path.main} exact component={MainPage} />
+                <Route path={Path.repository} exact component={MainPage} />
             </div>
             <Footer />
           </Authorize>  

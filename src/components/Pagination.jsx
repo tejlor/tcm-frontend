@@ -1,5 +1,4 @@
 import * as React from "react";
-import Select from "react-select-v1";
 
 export default class Pagination extends React.Component {
   static DELTA = 2;
@@ -78,36 +77,13 @@ export default class Pagination extends React.Component {
 
   render() {
     var visiblePages = this.calcVisiblePages(this.props.page + 1, this.props.pages);
-    var pageSizeOptions = this.props.pageSizeOptions.map((option) => {
-      return {
-        label: option,
-        value: option
-      };
-    });
 
     return (
       <div className="w3-row">
-        <div className="w3-half w3-margin-vert m-center">
-          {this.props.showPageSizeOptions === true
-            ? (
-            <div>
-              <label className="inline">Pokaż</label>
-              <Select
-                className="select-inline"
-                serchable={false}
-                clearable={false}
-                onChange={(e) => this.props.onPageSizeChange(Number(e.value))}
-                value={this.props.pageSize}
-                options={pageSizeOptions}
-              />
-              <label>wierszy</label>
-            </div>
-            )
-            : (
-            "\u00A0"
-          )}
+        <div className="w3-half">
+          <p>{this.props.rowStart} - {this.props.rowEnd} of {this.props.rowCount}</p>          
         </div>
-        <div className="w3-half w3-right-align w3-margin-vert m-center">
+        <div className="w3-half w3-right-align">
           <div className="w3-show-inline-block">
             <div className="w3-bar w3-border w3-round">
               <button key="prev" className="w3-button" onClick={this.goPrev} disabled={!this.props.canPrevious}>

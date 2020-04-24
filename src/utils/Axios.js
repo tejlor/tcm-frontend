@@ -1,8 +1,8 @@
 import axios from "axios";
 import qs from "querystring";
 import { toastr } from "react-redux-toastr";
+import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
 import Path from "utils/Path";
-import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Utils";
 
 
 const instance = axios.create({

@@ -43,6 +43,9 @@ export function sort(a, b) {
     return 0;
 }
 
+export function calcFileExtension(filename) {
+  return filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
+}
 
 // Date & Time
 
@@ -76,7 +79,7 @@ export function formatTime(time) {
 
   var moment = timeToMoment(time);
   
-  return moment.format(DATE_FORMAT) + "&nbsp;&nbsp;&nbsp" + moment.format(TIME_FORMAT);
+  return moment.format(DATE_FORMAT) + "\u00A0" + moment.format(TIME_FORMAT);
 }
 
 export function formatPeriod(start, end) {
@@ -88,20 +91,3 @@ export function durationInDays(startDate, endDate){
   let startMoment = moment.utc(startDate, "YYYY-MM-DD");
   return moment.duration(endMoment.diff(startMoment)).asDays() + 1;
 }
-
-
-// Constans
-
-export const TOKEN_INFO_KEY = 'tokenInfo';
-export const ACCESS_TOKEN_KEY = 'accessToken';
-
-
-// Form regex
-
-export const HOURS_REGEX = /^[1-8]$/;
-export const HOURS_PATTERN = "[1-8]";
-export const HOURS_CHARS = /^[1-8]*$/;
-
-export const AMOUNT_REGEX = /^[0-9]+([.,][0-9]{1,2})?$/;
-export const AMOUNT_CHARS = /^[0-9.,]*$/;
-export const AMOUNT_PATTERN = "[0-9]+([.,][0-9]{1,2})?";

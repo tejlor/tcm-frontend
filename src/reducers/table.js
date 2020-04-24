@@ -1,17 +1,13 @@
-import * as Action from "../actions/table";
-import DialogMode from "../enums/DialogMode";
+import * as Action from "actions/table";
+// import DialogMode from "enums/DialogMode";
 
 const initialState = {
-  originalDataSet: [],            // pełny data set
-  filteredDataSet: [],            // wyfiltrowany data set
-  filter: "",                     // treść filtrowania
-  selectedRow: undefined,         // wybrany wiersz
-  selection: {},                  // dodatkowe opcje dotyczące wybranego wiersza
-  dialogMode: DialogMode.HIDDEN,  // tryb okna dialogowego
-
-  dialogOriginalDataSet: [],      // pełny data set
-  dialogFilteredDataSet: [],      // wyfiltrowany data set
-  dialogFilter: "",               // treść filtrowania
+  originalDataSet: [],                  // original (full) data set
+  filteredDataSet: [],                  // filtered data set data set
+  filter: "",                           // filter text
+  treeSelectedRef: undefined,               // selected element in tree
+  // selectedRow: undefined,               // selected row
+  // dialogMode: DialogMode.HIDDEN,        // dialog mode
 };
 
 export default (state = initialState, action) => {
@@ -19,94 +15,82 @@ export default (state = initialState, action) => {
     case Action.DATASET_LOADED:
       return {
         ...state,
-        filter: "",
+        filter: initialState.filter,
         originalDataSet: action.dataSet,
         filteredDataSet: action.dataSet
-      };
-    
-    case Action.DIALOG_DATASET_LOADED:
-      return {
-        ...state,
-        dialogFilter: "",
-        dialogOriginalDataSet: action.dataSet,
-        dialogFilteredDataSet: action.dataSet
       };
 
     case Action.FILTER:
       return {
         ...state,
-        filter: action.value,
-        filteredDataSet: filterDataSet(state.originalDataSet, action.value, action.skipColumns)
+        filter: action.filter,
+        filteredDataSet: filterDataSet(state.originalDataSet, action.filter)
       };
     
-    case Action.DIALOG_FILTER:
+    case Action.TREE_SELECTED:
       return {
         ...state,
-        dialogFilter: action.value,
-        dialogFilteredDataSet: filterDataSet(state.dialogOriginalDataSet, action.value)
+        treeSelectedRef: action.selectedRef
       };
 
-    case Action.OPEN_DIALOG:
-      return {
-        ...state,
-        dialogMode: action.mode,
-        selectedRow: action.row,
-        selection: action.selection
-      };
+    // case Action.OPEN_DIALOG:
+    //   return {
+    //     ...state,
+    //     dialogMode: action.mode,
+    //     selectedRow: action.row,
+    //     selection: action.selection
+    //   };
 
-    case Action.CLOSE_DIALOG:
-      return {
-        ...state,
-        dialogMode: DialogMode.HIDDEN,
-        selectedRow: undefined
-      };
+    // case Action.CLOSE_DIALOG:
+    //   return {
+    //     ...state,
+    //     dialogMode: DialogMode.HIDDEN,
+    //     selectedRow: undefined
+    //   };
 
-    case Action.UPDATE_ROW:
-      return {
-        ...state,
-        originalDataSet: updateDataSet(state.originalDataSet, action.before, action.after),
-        filteredDataSet: updateDataSet(state.filteredDataSet, action.before, action.after),
-        dialogMode: DialogMode.HIDDEN,
-        selectedRow: undefined,
-        selection: {}
-      };
+    // case Action.UPDATE_ROW:
+    //   return {
+    //     ...state,
+    //     originalDataSet: updateDataSet(state.originalDataSet, action.before, action.after),
+    //     filteredDataSet: updateDataSet(state.filteredDataSet, action.before, action.after),
+    //     dialogMode: DialogMode.HIDDEN,
+    //     selectedRow: undefined,
+    //     selection: {}
+    //   };
     
     default:
       return state;
   }
 };
 
-function updateDataSet(dataSet, before, after) {
-  var newDataSet = [];
-  var inserted = false;
-  dataSet.forEach((row) => {
-    if (row !== before) {
-      newDataSet.push(row);
-    }
-    else if (after != null) { // podmieniamy rekord w tym samym miejscu, żeby nie było dziwnego sortowania
-      newDataSet.push(after);
-      inserted = true;
-    }
-  });
-  if (after != null && inserted === false) {
-    newDataSet.push(after);
-  }
-  return newDataSet;
-}
+// function updateDataSet(dataSet, before, after) {
+//   var newDataSet = [];
+//   var inserted = false;
+//   dataSet.forEach((row) => {
+//     if (row !== before) {
+//       newDataSet.push(row);
+//     }
+//     else if (after != null) { // podmieniamy rekord w tym samym miejscu, żeby nie było dziwnego sortowania
+//       newDataSet.push(after);
+//       inserted = true;
+//     }
+//   });
+//   if (after != null && inserted === false) {
+//     newDataSet.push(after);
+//   }
+//   return newDataSet;
+// }
 
-function filterDataSet(dataSet, filter, skipColumns) {
+function filterDataSet(dataSet, filter) {
   if (!filter) return dataSet;
 
   return dataSet.filter((row) => {
-    return searchInObject(row, filter.toLowerCase(), skipColumns);
+    return searchInObject(row, filter.toLowerCase());
   });
 }
 
-function searchInObject(obj, filter, skipColumns) {
+function searchInObject(obj, filter) {
   for (var key in obj) {
-    if (key === skipColumns)
-      continue;
-
     if (!obj[key]) continue;
 
     if (typeof obj[key] === "object") {

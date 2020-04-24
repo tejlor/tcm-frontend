@@ -2,8 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import * as SessionActions from "actions/session";
+import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
 import Path from "utils/Path";
-import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Utils";
 
 
 class LogoutPage extends React.Component {

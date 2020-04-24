@@ -29,7 +29,7 @@ ALTER TABLE public.user_group OWNER to tcm;
 CREATE TABLE public.user2user_group
 (
     user_id integer REFERENCES public.user (id),
-	  user_group_id integer REFERENCES public.user_group (id)
+	user_group_id integer REFERENCES public.user_group (id)
 );
 ALTER TABLE public.user2user_group OWNER to tcm;
 	
@@ -66,25 +66,45 @@ CREATE TABLE public.file
 );
 ALTER TABLE public.file OWNER to tcm;
 
-CREATE TABLE public.directory
+CREATE TABLE public.folder
 (
     id integer NOT NULL PRIMARY KEY,
 	icon character varying
 );
-ALTER TABLE public.directory OWNER to tcm;
+ALTER TABLE public.folder OWNER to tcm;
+
+INSERT INTO public.folder(id, icon) VALUES(1, NULL);
+
 
 CREATE TABLE public.association
 (
     id serial NOT NULL PRIMARY KEY,
-	parent_element_id integer REFERENCES public.element (id),
+	parent_element_id integer REFERENCES public.element (id) NOT NULL,
 	child_element_id integer REFERENCES public.element (id) NOT NULL,
+	type char(1) NOT NULL,
 	created_time timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL REFERENCES public.user (id)
 );
 ALTER TABLE public.association OWNER to tcm;
 
-CREATE TABLE public.contains_assoc
-(
-    id serial NOT NULL PRIMARY KEY
+-- OAuth2
+
+CREATE SCHEMA auth;
+
+CREATE TABLE auth.access_token 
+( 
+	token_id varchar(255),
+	token bytea,
+	authentication_id varchar(255) PRIMARY KEY,
+	user_name varchar(255),
+	client_id varchar(255),
+	authentication bytea,
+	refresh_token varchar(255)
 );
-ALTER TABLE public.contains_assoc OWNER to tcm;
+
+CREATE TABLE auth.refresh_token
+( 
+	token_id varchar(255),
+	token bytea,
+	authentication bytea 
+);

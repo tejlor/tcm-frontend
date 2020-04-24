@@ -1,34 +1,15 @@
-import * as DirectoryApi from 'logic/DirectoryApi';
-import Tree, { TreeNode } from 'rc-tree';
-import * as React from "react";
-
+import * as TableActions from "actions/table";
+import * as ElementApi from 'logic/ElementApi';
+import Tree from 'rc-tree';
 import 'rc-tree/assets/index.css';
+import * as React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import { ROOT_REF } from 'utils/Constants';
+import Path from "utils/Path";
 
-/* 
-  Tree:
-  - icon  customize icon. When you pass component, whose render will receive full TreeNode props as component props element/Function(props)
-  - loadedKeys mark node is loaded when loadData is true | string[]
-  - prefixCls 	prefix class 	String 	'rc-tree'
-  - selectable 	whether can be selected 	bool 	true
-  - showIcon 	whether show icon 	bool 	true
-  - showLine 	whether show line 	bool 	false
-  - onExpand 	fire on treeNode expand or not 	function(expandedKeys, {expanded: bool, node, nativeEvent}) 	-
-  - onMouseEnter 	call when mouse enter a treeNode 	function({event,node}) 	-
-  - onMouseLeave 	call when mouse leave a treeNode 	function({event,node}) 	-
-  - onRightClick 	select current treeNode and show customized contextmenu 	function({event,node}) 	-
-  - onSelect 	click the treeNode to fire 	function(selectedKeys, e:{selected: bool, selectedNodes, node, event, nativeEvent}) 	-
-  - switcherIcon 	specific the switcher icon. 	ReactNode / (props: TreeNodeAttribute) => ReactNode
 
-  TreeNode:
-  - className 	additional class to treeNode 	String 	''
-  - style 	set style to treeNode 	Object 	''
-  - title 	tree/subTree's title 	String/element 	'---'
-  - key 	it's used with tree props's (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys. you'd better to set it, and it must be unique in the tree's all treeNodes 	String 	treeNode's position
-  - isLeaf 	whether it's leaf node 	bool 	false
-  - icon 	customize icon. When you pass component, whose render will receive full TreeNode props as component props 	element/Function(props) 	-
-  - switcherIcon 	specific the switcher icon. 	ReactNode / (props: TreeNodeAttribute) => ReactNode 	-
-*/
-export default class RepoTree extends React.Component {
+class RepoTree extends React.Component {
   static defaultProps = {
 
   };
@@ -37,54 +18,80 @@ export default class RepoTree extends React.Component {
     super(props);
 
     this.state = {
-      data: []
+      dataSet: [{
+        key: ROOT_REF,
+        title: "Main catalog",
+        isLeaf: false
+        }
+      ]
     };
 
     this.onLoadData = this.onLoadData.bind(this);
+    this.onSelect = this.onSelect.bind(this);
   }
 
   componentDidMount() {
-    this.onLoadData(null);
+    this.onLoadData();
   }
 
   onLoadData(node) {
-    var parentRef = node ? node.props.eventKey : null;
-    var parentElement = node ? node.props.element : null;
+    var parentKey = node ? node.props.eventKey : ROOT_REF;
 
-    DirectoryApi.list(parentRef, (data) => {    
-      if (parentElement) {
-        var newData = [...this.state.data];
-        parentElement.children = data;
-        this.setState({
-          data: newData
+    return new Promise(resolve => {
+        ElementApi.childrenTree(parentKey, (data) => {    
+          var _dataSet = [...this.state.dataSet];
+          this.updateTree(_dataSet, parentKey, data);
+          this.setState({
+            dataSet: _dataSet
+          });
+        });
+        resolve();
+    });
+  }
+
+  updateTree(dataSet, parentKey, children) {
+    dataSet.forEach(item => {
+      if (item.isLeaf === true)
+        return;
+
+      if (item.key === parentKey) {
+        item.children = children.map(e => {
+          return {
+            key: e.ref,
+            title: e.name,
+            isLeaf: e.leaf
+          }
         });
       }
-      else {
-        this.setState({
-          data: data
-        });
+      else if(item.children) {
+        this.updateTree(item.children, parentKey, children)
       }
     });
   }
 
-  render() {
-    const loop = (data) => {
-      if (!data) return null;
-      return data.map((item) => {
-        if (item.children) {
-          return <TreeNode title={item.name} key={item.ref}>{loop(item.children)}</TreeNode>;
-        }
-        return (
-          <TreeNode title={item.name} key={item.ref} isLeaf={item.file} />
-        );
-      });
-    };
-    const treeNodes = loop(this.state.data);
+  onSelect(selectedKeys, event) {
+    var ref = selectedKeys[0];
+    var isLeaf = event.node.isLeaf;
 
+    //this.props.doTreeSelected(ref);
+    this.props.history.push(Path.repository.replace(":parentRef", ref));
+  }
+
+  render() {
     return (
-      <Tree onSelect={this.onSelect} loadData={this.onLoadData}>
-        {treeNodes}
-      </Tree>   
+      <Tree treeData={this.state.dataSet} loadData={this.onLoadData} onSelect={this.onSelect} />   
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    
+  };
+};
+
+const mapDispatchToProps = {
+  doTreeSelected: TableActions.treeSelected,
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RepoTree));
