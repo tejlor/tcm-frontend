@@ -1,18 +1,15 @@
+import Authorize from "components/layout/Authorize";
+import Footer from "components/layout/Footer";
+import Header from "components/layout/Header";
+import MainPage from "components/MainPage";
+import LoginPage from "components/myAccount/LoginPage";
+import LogoutPage from "components/myAccount/LogoutPage";
+import RepositoryBrowsePage from "components/repository/browse/RepositoryBrowsePage";
+import ElementDetailsPage from "components/repository/details/ElementDetailsPage";
 import * as React from "react";
 import ReduxToastr from "react-redux-toastr";
 import { Route, Switch} from "react-router-dom";
-
-import "App.scss";
-import "file-icon-vectors/dist/file-icon-classic.min.css";
-import "react-select-v1/dist/react-select.css";
-import "react-table-6/react-table.css";
-
-import Authorize from "components/Authorize";
-import Footer from "components/Footer";
-import Header from "components/Header";
-import LoginPage from "components/myAccount/LoginPage";
-import LogoutPage from "components/myAccount/LogoutPage";
-import MainPage from "components/repo/MainPage";
+import "scss/main.scss";
 import Path from "utils/Path";
 
 
@@ -22,12 +19,24 @@ export default class App extends React.Component {
     return ( 
       <div>
         <Switch>
-          <Route path={Path.myAccount + Path.login} component={LoginPage} />
-          <Route path={Path.myAccount + Path.logOut} component={LogoutPage} />
+          <Route path={Path.myAccount + Path.login}>
+            <LoginPage />
+          </Route>
+          <Route path={Path.myAccount + Path.logOut}>
+            <LogoutPage />
+          </Route>
           <Authorize>
             <Header />
             <div className="w3-content w3-container app-container">
-                <Route path={Path.repository} exact component={MainPage} />
+              <Route path={Path.main} exact >
+                <MainPage />
+              </Route>
+              <Route path={Path.repository + Path.browse()} exact >
+                <RepositoryBrowsePage />
+              </Route>
+              <Route path={Path.repository + Path.details()} exact >
+                <ElementDetailsPage />
+              </Route>
             </div>
             <Footer />
           </Authorize>  

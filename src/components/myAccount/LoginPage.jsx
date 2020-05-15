@@ -1,13 +1,13 @@
-import * as OauthApi from "logic/OauthApi";
+import * as OauthApi from "api/OauthApi";
 import * as React from "react";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { withRouter } from "react-router-dom";
 import { handleGeneratedToken} from "utils/Axios";
 import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
+import {ROOT_REF} from "utils/Constants";
 import Path from "utils/Path";
 
-import "./LoginPage.scss";
 
 
 class LoginPage extends React.Component {
@@ -86,7 +86,7 @@ class LoginPage extends React.Component {
   }
 
   redirectToMainPage() {
-    this.props.history.push(Path.main);
+    this.props.history.push(Path.repositoryBind(ROOT_REF));
   }
 
   render() {

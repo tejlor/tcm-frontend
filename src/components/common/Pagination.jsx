@@ -15,10 +15,10 @@ export default class Pagination extends React.Component {
     this.onPageChange = this.onPageChange.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.page !== nextProps.page) {
+  componentDidUpdate(prevProps) {
+    if (this.props.page !== prevProps.page) {
       this.setState({
-        page: nextProps.page
+        page: this.props.page
       });
     }
   }
@@ -94,7 +94,7 @@ export default class Pagination extends React.Component {
                   return <span key={index}>...</span>;
                 else
                   return (
-                    <button key={index} className={this.props.page + 1 === el ? "w3-button w3-green" : "w3-button"} onClick={() => this.onPageChange(el - 1)}>
+                    <button key={index} className={this.props.page + 1 === el ? "w3-button w3-theme" : "w3-button"} onClick={() => this.onPageChange(el - 1)}>
                       {el}
                     </button>
                   );

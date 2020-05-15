@@ -3,6 +3,7 @@
 export const TOKEN_INFO_KEY = 'tokenInfo';
 export const ACCESS_TOKEN_KEY = 'accessToken';
 export const ROOT_REF = "00000000-0000-0000-0000-000000000000";
+export const DIRECTORY_SEPARATOR = "/";
 
 // Form regex
 

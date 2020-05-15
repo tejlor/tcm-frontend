@@ -11,7 +11,7 @@ export class Dialog extends React.Component {
   static defaultProps = {
     mode: DialogMode.HIDDEN,
     title: "",
-    modalClass: "",
+    className: "",
     saveText: undefined,
     buttons: undefined,
     onClose: () => {},
@@ -20,32 +20,38 @@ export class Dialog extends React.Component {
 
   render() {
     var saveText = this.props.saveText;
-    if (!saveText) {
+    if (saveText === undefined) {
       if (this.props.mode === DialogMode.ADD)
-        saveText = "Dodaj";
+        saveText = "Add";
       else if (this.props.mode === DialogMode.EDIT)
-        saveText = "Zapisz";
+        saveText = "Save";
     }
+
+    var closeText = "Close";
+    if (this.props.mode === DialogMode.ADD)
+      closeText = "Cancel";
+    else if (this.props.mode === DialogMode.EDIT)
+      closeText = "Cancel";
     
     return (
       <div className="w3-modal" style={this.props.mode !== DialogMode.HIDDEN ? { display: "block" } : { display: "none" }}>
-        <div className={"w3-modal-content w3-animate-top " + this.props.modalClass}>
+        <div className={"w3-modal-content w3-animate-top " + this.props.className}>
           <header className="w3-container w3-display-container w3-blue">
-            <span onClick={this.props.onClose} className="w3-button w3-display-right" style={{padding: "11px 16px"}}>
-              <i className="fa fa-times w3-xlarge" />
+            <span className="w3-display-right" style={{padding: "4px 16px 0px 0px"}}>
+              <i className="fa fa-window-close w3-xlarge" onClick={this.props.onClose} style={{cursor:"pointer"}}/>
             </span>
             <h4>{this.props.title}</h4>
           </header>
           <div className="w3-padding">
             {this.props.children}
           </div>
-          <footer className="w3-padding w3-light-grey">
+          <footer className="w3-padding w3-border-top">
             {this.props.buttons
               ? this.props.buttons
-              : <div className="w3-bar w3-center">
-                <button className="w3-button w3-round w3-red" onClick={this.props.onClose}>Zamknij</button>
+              : <div className="w3-bar w3-right-align" >
+                <button className="w3-button w3-round w3-white" onClick={this.props.onClose}>{closeText}</button>
                 &nbsp;
-                {saveText && <button className="w3-button w3-round w3-green" onClick={this.props.onSave}>{saveText}</button>}          
+                {saveText && <button className="w3-button w3-round w3-theme" onClick={this.props.onSave}>{saveText}</button>}          
               </div>
             }
           </footer>
@@ -162,14 +168,14 @@ class RowControl extends React.Component {
         options={years}
       />;
     }
-    else if (textarea) {
-      return <textarea className="w3-input w3-border w3-round" value={null2Str(value)} onChange={onChange} disabled={!enabled} />; 
-    }
     else if (checkbox) {
       return <Checkbox checkboxClass="icheckbox_flat-blue" label="&nbsp;" checked={value === true} onChange={onChange} />
     }
+    else if (textarea) {
+      return <textarea className="w3-input w3-border w3-round" value={null2Str(value)} onChange={onChange} readOnly={!enabled} />; 
+    }
     else {
-      return <input type="text" className="w3-input w3-border w3-round" value={null2Str(value)} onChange={onChange} disabled={!enabled} pattern={pattern} />;
+      return <input type="text" className="w3-input w3-border w3-round" value={null2Str(value)} onChange={onChange} readOnly={!enabled} pattern={pattern} />;
     }
   }
 }

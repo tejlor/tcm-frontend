@@ -10,19 +10,19 @@ export default class Footer extends React.Component {
           <div className="w3-third">
             <h3>FOOTER</h3>
             <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-            <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+            <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" >w3.css</a></p>
           </div>
 
           <div className="w3-third">
             <h3>BLOG POSTS</h3>
             <ul className="w3-ul w3-hoverable">
               <li className="w3-padding-16">
-                <img src="/img/workshop.jpg" className="w3-left w3-margin-right" style={{ width: "50px" }} />
+                <img src="/img/workshop.jpg" className="w3-left w3-margin-right" style={{ width: "50px" }} alt=""/>
                 <span className="w3-large">Lorem</span><br />
                 <span>Sed mattis nunc</span>
               </li>
               <li className="w3-padding-16">
-                <img src="/img/workshop.jpg" className="w3-left w3-margin-right" style={{ width: "50px" }} />
+                <img src="/img/workshop.jpg" className="w3-left w3-margin-right" style={{ width: "50px" }} alt=""/>
                 <span className="w3-large">Ipsum</span><br />
                 <span>Praes tinci sed</span>
               </li>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-import * as TableActions from "actions/table";
+import * as TableActions from "actions/repository/browse";
 
 class TableFilter extends React.Component {
   static defaultProps = {

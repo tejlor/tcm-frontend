@@ -1,5 +1,5 @@
 import * as SessionActions from "actions/session";
-import * as AccountApi from "logic/AccountApi";
+import * as AccountApi from "api/AccountApi";
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -53,14 +53,12 @@ class Authorize extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentUser: state.session.currentUser,
-  }
-}
+const mapStateToProps = (state) => ({
+  currentUser: state.session.currentUser
+});
 
-const mapDispatchToProps = {
-  doCurrentUserLoaded: SessionActions.currentUserLoaded,
-}
+const mapDispatchToProps = ({
+  doCurrentUserLoaded: SessionActions.currentUserLoaded
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Authorize));

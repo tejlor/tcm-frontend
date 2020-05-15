@@ -1,0 +1,42 @@
+$textColor: #074b83;
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+  font-family: "Roboto";
+}
+
+.app-container {
+  margin-top: 80px;
+  max-width: 1600px;
+}
+
+a {
+  text-decoration: none;
+  color: $textColor;
+}
+
+h2 {
+  padding-bottom: 2px;
+  border-bottom: 1px solid #eee;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+
+  i {
+    margin-right: 8px;
+    color: $textColor;
+  }
+}
+
+@import "utils.scss";
+@import "repo.scss";
+@import "form.scss";
+
+@import "node_modules/react-redux-toastr/src/styles/index";
+@import "node_modules/react-datepicker/dist/react-datepicker";
+@import "node_modules/react-select-v1/dist/react-select";
+@import "node_modules/react-table-6/react-table";
+@import "node_modules/file-icon-vectors/dist/file-icon-classic.min";
