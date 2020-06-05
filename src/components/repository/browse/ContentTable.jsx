@@ -2,6 +2,7 @@ import * as TableActions from "actions/repository/browse";
 import Pagination from "components/common/Pagination";
 import fileIconVectorCatalog from "file-icon-vectors/dist/icons/classic/catalog.json";
 import * as React from "react";
+import { Checkbox } from "react-icheck";
 import { connect } from "react-redux";
 import {Link} from "react-router-dom";
 import ReactTable from "react-table-6";
@@ -16,6 +17,12 @@ class ContentTable extends React.Component {
   };
 
   columns = [
+    {
+      id: "check",
+      width: 30,
+      className: "flex",
+      accessor: row => this.renderCheck(row, this.props.checkedTableRows)       
+    },
     {
       id: "main",
       accessor: row => this.renderRow(row)
@@ -32,10 +39,10 @@ class ContentTable extends React.Component {
     this.loadTableRows = this.loadTableRows.bind(this);
     this.onReloadTableRows = this.onReloadTableRows.bind(this);
     this.getPaginationProps = this.getPaginationProps.bind(this);
+    this.onCheckedChange = this.onCheckedChange.bind(this);
   }
 
   onReloadTableRows(state) {
-    console.log(state.page);
     this.loadTableRows(state.page);
   }
 
@@ -51,6 +58,15 @@ class ContentTable extends React.Component {
     };
    
     this.props.doLoadTableRows(_tableParams);
+  }
+
+  onCheckedChange(event, checked) {
+    this.props.doTableRowSelected(event.target.dataset.ref, checked);
+  }
+
+  renderCheck(row, checkedTableRows) {
+    return <Checkbox checkboxClass="icheckbox_flat-blue" label="&nbsp;" checked={row.selected === true}
+      onChange={this.onCheckedChange} data-ref={row.ref} />;
   }
 
   renderRow(row) {
@@ -120,7 +136,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLoadTableRows: (tableParams) => dispatch(TableActions.loadTableRows(tableParams))
+  doLoadTableRows: (tableParams) => dispatch(TableActions.loadTableRows(tableParams)),
+  doTableRowSelected: (ref, checked) => dispatch(TableActions.tableRowSelected(ref, checked))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentTable);

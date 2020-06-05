@@ -1,6 +1,12 @@
 import axios from "utils/Axios";
 
 
+export function get(elementRef, success){
+  axios
+    .get(`elements/${elementRef}`)
+    .then((res) => success(res.data));
+}
+
 export function parentsTree(elementRef, success){
   axios
     .get(`elements/${elementRef}/parentsTree`)

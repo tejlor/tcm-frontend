@@ -50,10 +50,27 @@ export default (state = initialState, action) => {
         tableLoading: false,
         tableParams: action.tableParams,
         tableRows: action.tableRows,
-        tableInfo: action.tableInfo
+        tableInfo: action.tableInfo,
+        checkedTableRows: []
       };
+    
+    case Action.TABLE_ROW_SELECTED:
+      return {
+        ...state,
+        tableRows: updateSelectedTableRows(state.tableRows, action.ref, action.selected)
+      }
     
     default:
       return state;
   }
 };
+
+function updateSelectedTableRows(tableRows, ref, selected){
+  let _tableRows = tableRows.slice();
+  _tableRows.forEach(e => {
+    if (e.ref === ref) {
+      e.selected = selected;
+    }
+  });
+  return _tableRows;
+}

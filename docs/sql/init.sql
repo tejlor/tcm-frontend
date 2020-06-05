@@ -62,7 +62,8 @@ CREATE TABLE public.file
 (
     id integer NOT NULL PRIMARY KEY,
 	size integer NOT NULL,
-	mime_type character varying NOT NULL	
+	mime_type character varying NOT NULL,
+	preview_mime_type character varying NOT NULL
 );
 ALTER TABLE public.file OWNER to tcm;
 

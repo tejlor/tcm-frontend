@@ -1,5 +1,6 @@
 import Filter from "./Filter";
 import NewFolder from "./NewFolder";
+import Options from "./Options";
 import OrderBy from "./OrderBy";
 import Upload from "./Upload";
 import * as React from "react";
@@ -26,6 +27,7 @@ class ContentBar extends React.Component {
         <div className="w3-bar w3-light-grey browseMenuBar">
           <NewFolder parentRef={this.props.parentRef} />
           <Upload parentRef={this.props.parentRef} />
+          <Options />
           <OrderBy />
           <Filter />
         </div> 

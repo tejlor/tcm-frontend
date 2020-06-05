@@ -35,14 +35,14 @@ class RepositoryBrowsePage extends React.Component {
   render() {
     return (
       <div className="w3-row">
-        <div className="w3-col m3">
-          <div className="w3-card w3-round w3-white w3-container">
+        <div className="w3-col m3 left">
+          <div className="w3-card w3-round w3-white w3-container card">
             <h2><i className="fas fa-desktop" />Repository</h2>
             <RepoTree />
           </div>
         </div>
-        <div className="w3-col m9">
-          <div className="w3-card w3-round w3-white w3-container w3-margin-left w3-margin-right w3-margin-bottom">
+        <div className="w3-col m9 right">
+          <div className="w3-card w3-round w3-white w3-container card">
             <h2><i className="fas fa-folder-open" />Content</h2>
             <ContentPath />
             <ContentBar />
