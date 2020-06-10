@@ -1,5 +1,6 @@
 import axios from "utils/Axios";
 
+const url = "elements";
 
 export function get(elementRef, success){
   axios
@@ -30,5 +31,11 @@ export function childrenTable(parentRef, params, success){
 export function path(elementRef, success){
   axios
     .get(`elements/${elementRef}/path`)
+    .then((res) => success(res.data));
+}
+
+export function deleteElements(refs, success){
+  axios
+    .delete(`${url}/delete?refs=${refs.join(',')}`)
     .then((res) => success(res.data));
 }

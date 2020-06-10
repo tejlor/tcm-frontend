@@ -26,6 +26,8 @@ const initialState = {
     rowEnd: 0,                    // number of last row at current page
   },
 
+  selectedAction: undefined,    // selected action to be performed on selected elements
+
 };
 
 export default (state = initialState, action) => {
@@ -58,7 +60,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tableRows: updateSelectedTableRows(state.tableRows, action.ref, action.selected)
-      }
+      };
+    
+    case Action.ACTION_SELECTED:
+      return {
+        ...state,
+        selectedAction: action.action,
+      };
     
     default:
       return state;
@@ -68,7 +76,7 @@ export default (state = initialState, action) => {
 function updateSelectedTableRows(tableRows, ref, selected){
   let _tableRows = tableRows.slice();
   _tableRows.forEach(e => {
-    if (e.ref === ref) {
+    if (e.ref === ref || ref === []) {
       e.selected = selected;
     }
   });

@@ -1,5 +1,7 @@
 import { statement } from "@babel/template";
+import * as TableActions from 'actions/repository/browse';
 import * as RepositoryBrowseActions from "actions/repository/browse";
+import * as ElementApi from "api/ElementApi";
 import * as FileApi from "api/FileApi";
 import * as FolderApi from "api/FolderApi";
 import { Dialog, Row } from "components/common/Dialog";
@@ -22,17 +24,42 @@ class Options extends React.Component {
       
     };
 
+    this.onCut = this.onCut.bind(this);
+    this.onCopy = this.onCopy.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     this.onDownloadZip = this.onDownloadZip.bind(this);
   }
 
+  onCut() {
+    this.props.doActionSelected('cut');
+  }
+
+  onCopy() {
+    this.props.doActionSelected('copy');
+  }
+
+  onDelete() {
+    toastr.confirm("Delete all selected elements?", {
+      onOk: () => {
+        ElementApi.deleteElements(this.getSelectedRefs(), () => {
+          toastr.success("Elements has been deleted.");
+          this.props.doLoadTableRows();
+        });
+      }
+    });
+  }
+
   onDownloadZip() {
-    let refs = this.props.tableRows.filter(row => row.selected === true).map(row => row.ref);
-    FileApi.zip(refs, (data) => {
+    FileApi.zip(this.getSelectedRefs(), (data) => {
       var blob = new Blob([data], { type: "application/zip" });
       FileSaver.saveAs(blob, `TCM_files.xlsx`);
     });
   }
   
+  getSelectedRefs() {
+    return this.props.tableRows.filter(row => row.selected === true).map(row => row.ref);
+  }
+
   render() {
     let disabled = true;
     for (let row of this.props.tableRows) {
@@ -55,6 +82,9 @@ class Options extends React.Component {
           <button className="w3-bar-item w3-button" key="copy" onClick={this.onCopy}>
             <i className="fas fa-copy"/> Copy
           </button>
+          <button className="w3-bar-item w3-button" key="copy" onClick={this.onDelete}>
+            <i className="fas fa-trash-alt"/> Delete
+          </button>
           <button className="w3-bar-item w3-button w3-border-top" key="zip" onClick={this.onDownloadZip}>
             <i className="far fa-file-archive"/> Download as zip
           </button>
@@ -66,11 +96,12 @@ class Options extends React.Component {
 
 const mapStateToProps = (state) => ({
   parentRef: state.repository.browse.folderRef,
-  tableRows: state.repository.browse.tableRows,
+  tableRows: state.repository.browse.tableRows
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  doLoadTableRows: () => dispatch(TableActions.loadTableRows()),
+  doActionSelected: (action) => dispatch(TableActions.actionSelected(action))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Options);
