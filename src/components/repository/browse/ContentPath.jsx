@@ -40,7 +40,7 @@ class ContentPath extends React.Component {
     }
 
     return (
-      <div>
+      <div class="contentPath">
         {elements}
       </div> 
     );

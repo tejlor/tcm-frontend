@@ -1,6 +1,7 @@
 import * as ElementApi from "api/ElementApi";
 
 export const FOLDER_REF_CHANGED = "FOLDER_REF_CHANGED";
+export const CURRENT_PATH_CHANGED = "CURRENT_PATH_CHANGED";
 export const TABLE_ROWS_LOADING = "TABLE_ROWS_LOADING";
 export const TABLE_ROWS_LOADED = "TABLE_ROWS_LOADED";
 export const TABLE_ROW_SELECTED = "TABLE_ROW_SELECTED";
@@ -9,8 +10,9 @@ export const ACTION_SELECTED = "ACTION_SELECTED";
 export const setFolderRef = (folderRef) => {
   return (dispatch) => {
     ElementApi.path(folderRef, (data) => {
-      dispatch(folderRefChanged(folderRef, data));
+      dispatch(currentPathChanged(data))
     });
+    dispatch(folderRefChanged(folderRef));
     dispatch(loadTableRows(undefined, folderRef));
   };
 };
@@ -38,15 +40,20 @@ export const tableRowSelected = (ref, selected) => ({
   selected: selected
 });
 
-export const actionSelected = (action) => ({
+export const actionSelected = (selectedRefs, action) => ({
   type: ACTION_SELECTED,
+  selectedRefs: selectedRefs,
   action: action
 });
 
-const folderRefChanged = (parentRef, path) => ({
+const folderRefChanged = (parentRef) => ({
   type: FOLDER_REF_CHANGED,
   folderRef: parentRef,
-  currentPath: path
+});
+
+export const currentPathChanged = (currentPath) => ({
+  type: CURRENT_PATH_CHANGED,
+  currentPath: currentPath,
 });
 
 const tableRowsLoading = () => ({

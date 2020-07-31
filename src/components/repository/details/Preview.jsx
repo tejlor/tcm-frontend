@@ -2,8 +2,8 @@ import PdfPreview from "./PdfPreview";
 import * as RepositoryDetailsActions from "actions/repository/details";
 import * as FileApi from "api/FileApi";
 import Card from "components/common/Card";
+import FileSaver from "file-saver";
 import * as React from "react";
-import { Document, Page, pdfjs } from 'react-pdf';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -18,6 +18,7 @@ class Preview extends React.Component {
     this.state = {
     };
 
+    this.onDownloadClick = this.onDownloadClick.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +57,12 @@ class Preview extends React.Component {
       this.setState({
         src: src
       }); 
+    });
+  }
+
+  onDownloadClick() {
+    FileApi.content(this.props.element.ref, (blob) => {
+      FileSaver.saveAs(blob, this.props.element.name);
     });
   }
 

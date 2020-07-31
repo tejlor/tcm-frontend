@@ -26,7 +26,9 @@ const initialState = {
     rowEnd: 0,                    // number of last row at current page
   },
 
+  selectedRefs: [],             // selected elements refs
   selectedAction: undefined,    // selected action to be performed on selected elements
+
 
 };
 
@@ -37,6 +39,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         folderRef: action.folderRef,
+      };
+    
+    case Action.CURRENT_PATH_CHANGED:
+      return {
+        ...state,
         currentPath: action.currentPath
       };
 
@@ -65,6 +72,7 @@ export default (state = initialState, action) => {
     case Action.ACTION_SELECTED:
       return {
         ...state,
+        selectedRefs: action.selectedRefs,
         selectedAction: action.action,
       };
     

@@ -40,8 +40,8 @@ export default class PdfPreview extends React.Component {
       return null;
     
     return (
-      <>  
-        <div class="w3-bar">
+      <div class="w3-center">  
+        <div class="w3-bar pdf-nav">
           <button class="w3-button" onClick={this.onChangePage.bind(this, 1)}><i className="fas fa-fast-backward"/></button>
           <button class="w3-button" onClick={this.onChangePage.bind(this, this.state.pageNo - 1)}><i className="fas fa-backward"/></button>
           <span>{this.state.pageNo} / {this.state.pageCount || "--"}</span>
@@ -51,7 +51,7 @@ export default class PdfPreview extends React.Component {
         <Document file={this.props.file} onLoadSuccess={this.onLoadSuccess} renderMode="svg">
           <Page pageNumber={this.state.pageNo} />
         </Document>
-      </>
+      </div>
     );
   }
 }

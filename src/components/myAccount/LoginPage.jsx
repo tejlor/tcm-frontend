@@ -86,7 +86,7 @@ class LoginPage extends React.Component {
   }
 
   redirectToMainPage() {
-    this.props.history.push(Path.repositoryBind(ROOT_REF));
+    this.props.history.push(Path.repository + Path.browse(ROOT_REF));
   }
 
   render() {

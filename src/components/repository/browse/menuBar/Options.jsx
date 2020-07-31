@@ -31,11 +31,11 @@ class Options extends React.Component {
   }
 
   onCut() {
-    this.props.doActionSelected('cut');
+    this.props.doActionSelected(this.getSelectedRefs(), 'cut');
   }
 
   onCopy() {
-    this.props.doActionSelected('copy');
+    this.props.doActionSelected(this.getSelectedRefs(), 'copy');
   }
 
   onDelete() {
@@ -82,7 +82,7 @@ class Options extends React.Component {
           <button className="w3-bar-item w3-button" key="copy" onClick={this.onCopy}>
             <i className="fas fa-copy"/> Copy
           </button>
-          <button className="w3-bar-item w3-button" key="copy" onClick={this.onDelete}>
+          <button className="w3-bar-item w3-button" key="delete" onClick={this.onDelete}>
             <i className="fas fa-trash-alt"/> Delete
           </button>
           <button className="w3-bar-item w3-button w3-border-top" key="zip" onClick={this.onDownloadZip}>
@@ -101,7 +101,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   doLoadTableRows: () => dispatch(TableActions.loadTableRows()),
-  doActionSelected: (action) => dispatch(TableActions.actionSelected(action))
+  doActionSelected: (selectedRefs, action) => dispatch(TableActions.actionSelected(selectedRefs, action))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Options);

@@ -34,6 +34,19 @@ export function path(elementRef, success){
     .then((res) => success(res.data));
 }
 
+export function move(data, success){
+  axios
+    .post(`${url}/move`, data)
+    .then((res) => success(res.data));
+}
+
+export function copy(data, success) {
+  console.log(data);
+  axios
+    .post(`${url}/copy`, data)
+    .then((res) => success(res.data));
+}
+
 export function deleteElements(refs, success){
   axios
     .delete(`${url}/delete?refs=${refs.join(',')}`)

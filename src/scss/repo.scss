@@ -89,7 +89,6 @@
 .browseMenuBar-outer {
   overflow: hidden;
   padding-bottom: 10px;
-  margin-top: 6px;
 }
 
 .browseMenuBar {
@@ -117,3 +116,15 @@ div.filter {
   }
 }
 
+div.pdf-nav {
+  display: inline-block;
+  width: auto;
+}
+
+div.react-pdf__Page__svg {
+  margin: 0px auto;
+}
+
+div.contentPath {
+  margin-bottom: 6px;
+}

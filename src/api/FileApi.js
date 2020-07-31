@@ -19,6 +19,17 @@ export function preview(ref, success){
     });
 }
 
+export function content(ref, success){
+  axios
+    .get(`${url}/${ref}/content`, {
+      responseType: "blob"
+    })
+    .then(res => {
+      let blob = new Blob([res.data]);
+      success(blob)
+    });
+}
+
 export function zip(refs, success){
   axios
     .get(`${url}/zip?refs=${refs.join(',')}`, {
