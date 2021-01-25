@@ -119,7 +119,7 @@ function handle401(error) {
 }
 
 function handle404(error) {
-  // nothing
+  // do nothing
 }
 
 function handle500(error){

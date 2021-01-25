@@ -3,5 +3,13 @@
 }
 
 .highlight {
-  color: #074b83;
+  color: $textColor;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.pointer {
+  cursor: pointer;
 }

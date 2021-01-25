@@ -2,9 +2,10 @@ import * as Action from "../actions/session";
 
 const initialState = {
   currentUser: undefined,         // logged user 
+  settings: undefined             // server settings
 };
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
           
     case Action.CURRENT_USER_LOADED: 
@@ -13,8 +14,18 @@ export default (state = initialState, action) => {
         currentUser: action.user
       };
     
+    case Action.SETTINGS_LOADED: 
+      return {
+        ...state,
+        settings: action.settings.reduce((map, obj) => {
+            map[obj.name] = obj.value;
+            return map;
+          }, {})
+      };
 
     default:
       return state;
   }
 };
+
+export default reducer;

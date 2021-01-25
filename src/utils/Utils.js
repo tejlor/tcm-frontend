@@ -1,6 +1,5 @@
 import moment from "moment";
 
-
 // Common
 
 export function null2Str(value) {
@@ -27,24 +26,53 @@ export function sort(a, b) {
   a = (typeof a === "string" ? a.toLowerCase() : a);
   b = (typeof b === "string" ? b.toLowerCase() : b);
 
-  if(typeof a === "string" && typeof b === "string")
+  if (typeof a === "string" && typeof b === "string") {
     return a.localeCompare(b);
+  }
  
-  if (a === '' && b === 0)
+  if (a === '' && b === 0) {
     return -1;
-  else if (a === 0 && b === '')
+  }
+  else if (a === 0 && b === '') {
     return 1;
+  }
   
-  if (a > b)
+  if (a > b) {
     return 1;
-  else if (a < b)
+  }
+  else if (a < b) {
     return -1;
-  else
+  }
+  else {
     return 0;
+  }
 }
 
 export function calcFileExtension(filename) {
   return filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
+}
+
+// Decimal
+
+export function formatSize(value) {
+  if (value < 1024) {
+    return value + " B";
+  }
+
+  value /= 1024;
+  if (value < 1024) {
+    return value.toFixed(2) + " KB";
+  }
+
+  value /= 1024;
+  if (value < 1024) {
+    return value.toFixed(2) + " MB";
+  }
+
+  value /= 1024;
+  if (value < 1024) {
+    return value.toFixed(2) + " GB";
+  }
 }
 
 // Date & Time
@@ -61,24 +89,27 @@ export function timeToMoment(str) {
 }
 
 export function formatDate(date) {
-  if (!date) 
+  if (!date) {
     return "";
+  }
 
-  if (typeof date === "object") 
+  if (typeof date === "object") {
     return date.format(DATE_FORMAT);
+  }
 
   return dateToMoment(date).format(DATE_FORMAT);
 }
 
 export function formatTime(time) {
-  if (!time) 
+  if (!time) {
     return "";
+  }
 
-  if (typeof time === "object") 
+  if (typeof time === "object") {
     return time.format(TIME_FORMAT);
+  }
 
   var moment = timeToMoment(time);
-  
   return moment.format(DATE_FORMAT) + "\u00A0" + moment.format(TIME_FORMAT);
 }
 

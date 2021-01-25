@@ -1,0 +1,72 @@
+div.dialog header span {
+  padding: 4px 16px 0px 0px;
+
+  i {
+    cursor: pointer;
+  }
+}
+
+.w3-modal-content.small {
+  width: 400px;
+}
+
+.form-inline {
+  margin: 4px 0px;
+
+  .w3-input {
+    padding: 0px 8px;
+    height: 36px;
+    display: block;
+  }
+
+  textarea {
+    height: 100px;
+  }
+
+  div.label {
+    label {
+      display: block;
+      text-align: right;
+      line-height: 36px;
+      margin-right: 8px;
+      @media (max-width:600px){
+        text-align: left;
+      }
+    }
+  }
+
+  div.value {
+    label {
+      display: block;
+      line-height: 36px;  
+    }
+    .select-inline:first-child {
+      margin-left: 0px;
+    }
+  }
+
+  p {
+    padding: 8px 0px 7px 0px;
+    margin: 0px;
+  }
+}
+
+%inline {
+  display: inline-block;
+  margin: 0px 8px 0px 0px;
+  width: auto;
+}
+
+.input-inline {
+  @extend %inline;
+  vertical-align: baseline;
+}
+
+.select-inline {
+  @extend %inline;
+  vertical-align: middle;
+}
+
+label.inline, .label-inline {
+  margin: 0px 8px 0px 0px;
+}

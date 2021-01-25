@@ -2,48 +2,48 @@ import axios from "utils/Axios";
 
 const url = "files";
 
-export function get(ref, success){
+export function get(ref, onSuccess){
   axios
-    .get(`${url}/${ref}`, success)
-    .then((res) => success(res.data));
+    .get(`${url}/${ref}`)
+    .then((res) => onSuccess(res.data));
 }
 
-export function preview(ref, success){
+export function preview(ref, onSuccess){
   axios
     .get(`${url}/${ref}/preview`, {
       responseType: "blob"
     })
     .then(res => {
-      let blob = new Blob([res.data], { type: "image/jpeg" });
-      success(blob)
+      const blob = new Blob([res.data], { type: "image/jpeg" });
+      onSuccess(blob)
     });
 }
 
-export function content(ref, success){
+export function content(ref, onSuccess){
   axios
     .get(`${url}/${ref}/content`, {
       responseType: "blob"
     })
     .then(res => {
-      let blob = new Blob([res.data]);
-      success(blob)
+      const blob = new Blob([res.data]);
+      onSuccess(blob)
     });
 }
 
-export function zip(refs, success){
+export function downloadAsZip(refs, onSuccess){
   axios
     .get(`${url}/zip?refs=${refs.join(',')}`, {
       responseType: "blob"
     })
     .then(res => {
       let blob = new Blob([res.data], { type: "application/zip" });
-      success(blob)
+      onSuccess(blob)
     });
 }
 
-export function upload(data, onProgress, success){
+export function upload(data, onProgress, onSuccess){
   axios
     .post(`${url}/`, data, { onUploadProgress: onProgress })
-    .then(res => success(res.data));
+    .then(res => onSuccess(res.data));
 }
 

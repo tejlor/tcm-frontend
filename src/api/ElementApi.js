@@ -2,53 +2,58 @@ import axios from "utils/Axios";
 
 const url = "elements";
 
-export function get(elementRef, success){
+export function get(ref, onSuccess){
   axios
-    .get(`elements/${elementRef}`)
-    .then((res) => success(res.data));
+    .get(`${url}/${ref}`)
+    .then((res) => onSuccess(res.data));
 }
 
-export function parentsTree(elementRef, success){
+export function path(ref, onSuccess){
   axios
-    .get(`elements/${elementRef}/parentsTree`)
-    .then((res) => success(res.data));
+    .get(`${url}/${ref}/path`)
+    .then((res) => onSuccess(res.data));
 }
 
-export function childrenTree(parentRef, success){
+export function childrenTree(parentRef, onSuccess){
   axios
-    .get(`elements/${parentRef}/childrenTree`)
-    .then((res) => success(res.data));
+    .get(`${url}/${parentRef}/childrenTree`)
+    .then((res) => onSuccess(res.data));
 }
 
-export function childrenTable(parentRef, params, success){
+export function parentsTree(ref, onSuccess){
   axios
-    .get(`elements/${parentRef}/childrenTable`, {
+    .get(`${url}/${ref}/parentsTree`)
+    .then((res) => onSuccess(res.data));
+}
+
+export function childrenTable(ref, params, onSuccess) {
+  console.log("3" + ref);
+  axios
+    .get(`${url}/${ref}/childrenTable`, {
       params: params
     })
-    .then((res) => success(res.data));
+    .then((res) => onSuccess(res.data));
 }
 
-export function path(elementRef, success){
+export function rename(data){
   axios
-    .get(`elements/${elementRef}/path`)
-    .then((res) => success(res.data));
+    .post(`${url}/rename`, data);
 }
 
-export function move(data, success){
+export function move(data, onSuccess){
   axios
     .post(`${url}/move`, data)
-    .then((res) => success(res.data));
+    .then((res) => onSuccess(res.data));
 }
 
-export function copy(data, success) {
-  console.log(data);
+export function copy(data, onSuccess) {
   axios
     .post(`${url}/copy`, data)
-    .then((res) => success(res.data));
+    .then((res) => onSuccess(res.data));
 }
 
-export function deleteElements(refs, success){
+export function remove(refs, onSuccess){
   axios
-    .delete(`${url}/delete?refs=${refs.join(',')}`)
-    .then((res) => success(res.data));
+    .delete(`${url}/remove?refs=${refs.join(',')}`)
+    .then((res) => onSuccess(res.data));
 }

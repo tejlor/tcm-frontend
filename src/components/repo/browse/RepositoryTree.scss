@@ -1,0 +1,24 @@
+.repository-tree {
+
+  overflow: auto;
+
+  .rc-tree-node-content-wrapper {
+    display: inline !important;
+  }
+
+  .rc-tree-node-content-wrapper-normal {
+    display: inline !important;
+    cursor: auto !important;
+  }
+  
+  .rc-tree-node-selected {
+    background-color: #d2eafd;
+    border-color: #d2eafd;
+    opacity: 1;
+  }
+
+  .rc-tree-switcher-noop {
+    display: none;
+  }
+
+}

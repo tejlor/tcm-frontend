@@ -1,8 +1,8 @@
 import qs from "querystring";
 import axios from "utils/Axios";
 
-export function generateToken(username, password, success, error){
-  var data = qs.stringify({
+export function generateToken(username, password, onSuccess, onError){
+  const data = qs.stringify({
     grant_type: "password",
     username: username,
     password: password
@@ -20,6 +20,6 @@ export function generateToken(username, password, success, error){
 
   axios
     .post(`oauth/token`, data, config)
-    .then(res => success(res.data))
-    .catch(err => error(err));
+    .then(res => onSuccess(res.data))
+    .catch(err => onError(err));
 }

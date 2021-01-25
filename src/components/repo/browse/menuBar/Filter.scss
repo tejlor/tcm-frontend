@@ -1,0 +1,18 @@
+div.filter {
+  display: flex;
+  padding: 6px 16px;
+
+  i {
+    padding: 4px;
+    background: white;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-right: none;
+  }
+
+  input {
+    padding: 0px 6px;
+    border: 1px solid #ccc;
+    width: 150px;
+  }
+}

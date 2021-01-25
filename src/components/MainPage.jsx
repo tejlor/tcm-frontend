@@ -1,22 +1,25 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { ROOT_REF } from "utils/Constants";
 import Path from "utils/Path";
 
-
 class MainPage extends React.Component {
-  static defaultProps = {
+  
+  static defaultProps = {};
 
-  };
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   componentDidMount() {
     this.redirect();
   }
 
-  componentWillReceiveProps(newProps) {
-    if (this.props.currentUser !== newProps.currentUser)
-      this.redirect(newProps.currentUser);
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.redirect(this.props.currentUser);
+    }
   } 
 
   redirect(user = this.props.currentUser) {
@@ -30,7 +33,7 @@ class MainPage extends React.Component {
   }
 
   redirectToRepositoryPage() {
-    this.props.history.push(Path.repository + Path.browse(ROOT_REF));
+    this.props.history.push(Path.repository + Path.browse(this.props.rootRef));
   }
 
   render() {
@@ -39,7 +42,8 @@ class MainPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: state.session.currentUser
+  currentUser: state.session.currentUser,
+  rootRef: state.session.settings.root_ref
 });
 
 const mapDispatchToProps = ({

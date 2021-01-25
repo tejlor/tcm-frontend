@@ -1,8 +1,15 @@
 import axios from "utils/Axios";
 
-export function create(data, success){
+const url = "folders";
+
+export function get(ref, onSuccess){
   axios
-    .post(`folders/`, data)
-    .then((res) => success(res.data));
+    .get(`${url}/${ref}`)
+    .then((res) => onSuccess(res.data));
 }
 
+export function create(data, onSuccess){
+  axios
+    .post(`${url}/`, data)
+    .then((res) => onSuccess(res.data));
+}

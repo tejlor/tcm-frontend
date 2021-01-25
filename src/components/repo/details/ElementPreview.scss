@@ -1,0 +1,21 @@
+.element-preview { 
+  border: 2px dashed #92b0b3;
+  text-align: center;
+  display: table;
+  width: 100%;
+  height: 400px;
+
+  div {
+    display: table-cell;
+    vertical-align: middle;
+
+    p {
+      margin: 0;
+      width: 100% !important;
+    }
+  
+    button {
+      margin-top: 8px;
+    }
+  }
+}

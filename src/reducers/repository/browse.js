@@ -28,11 +28,9 @@ const initialState = {
 
   selectedRefs: [],             // selected elements refs
   selectedAction: undefined,    // selected action to be performed on selected elements
-
-
 };
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case Action.FOLDER_REF_CHANGED:
@@ -90,3 +88,5 @@ function updateSelectedTableRows(tableRows, ref, selected){
   });
   return _tableRows;
 }
+
+export default reducer;

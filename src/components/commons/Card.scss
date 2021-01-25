@@ -1,0 +1,38 @@
+div.card {
+  margin: 0px 0px 16px 0px;
+
+  div.opener {
+    width: 50px;
+
+    i {
+      cursor: pointer;
+      transition: transform 0.5s;
+    }
+  }
+
+  div.body {
+    max-height: 0px;
+    transition: max-height 0.5s;
+    overflow: hidden;
+
+    div.body-in {
+      margin-bottom: 16px;
+    }
+  }
+
+  &.card-open {
+    
+    div.body {
+      max-height: 1000px;
+    }
+  }
+ 
+}
+
+.w3-row .left .card {
+  margin-right: 8px;
+}
+
+.w3-row .right .card {
+  margin-left: 8px;
+}
