@@ -1,15 +1,17 @@
 import "./LoginPage.scss";
+
 import * as OauthApi from "api/OauthApi";
 import * as React from "react";
+
+import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
+
+import Path from "utils/Path";
 import { connect } from "react-redux";
+import { handleGeneratedToken } from "utils/Axios";
 import { toastr } from "react-redux-toastr";
 import { withRouter } from "react-router-dom";
-import { handleGeneratedToken} from "utils/Axios";
-import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
-import Path from "utils/Path";
 
 class LoginPage extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props){
@@ -116,8 +118,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-
-};
+const mapDispatchToProps = (dispatch) => ({});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginPage));

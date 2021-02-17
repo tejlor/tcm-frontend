@@ -1,38 +1,33 @@
-import * as SessionActions from "actions/session";
-import * as AccountApi from "api/AccountApi";
-import * as SettingApi from "api/SettingApi";
 import * as React from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import * as SessionActions from "actions/session";
+
 import { ACCESS_TOKEN_KEY } from "utils/Constants";
 import Path from "utils/Path";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class Authorize extends React.Component { 
-  
   static defaultProps = {}
 
   constructor(props){
     super(props);
-    this.validateUser(); 
+    
+    this.state = {};
+    this.handleError = this.handleError.bind(this);
+  }
+
+  componentDidMount() {
+    this.validateUser();
   }
 
   validateUser(){
-    var token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    let token = localStorage.getItem(ACCESS_TOKEN_KEY);
     if (!token) {
       this.redirectToLoginPage();
     }
-    else if(!this.props.currentUser) {
-      this.loadCurrentUser();
+    else if (!this.props.currentUser || !this.props.settings) {
+      this.props.doLoadCurrentUserAndSettings(this.handleError);
     }
-  }
-
-  loadCurrentUser() {
-    AccountApi.getCurrentUser(this.props.doCurrentUserLoaded, this.handleError);
-    this.loadSettings();
-  }
-
-  loadSettings() {
-    SettingApi.getSafe(this.props.doSettingsLoaded, this.handleError);
   }
 
   handleError(error) {
@@ -42,7 +37,7 @@ class Authorize extends React.Component {
   }
 
   redirectToLoginPage() {
-    this.props.history.push(Path.myAccount + Path.login);
+    this.props.history.push(Path.login);
   }
 
   render() {
@@ -62,9 +57,8 @@ const mapStateToProps = (state) => ({
   settings: state.session.settings
 });
 
-const mapDispatchToProps = ({
-  doCurrentUserLoaded: SessionActions.currentUserLoaded,
-  doSettingsLoaded: SessionActions.settingsLoaded
+const mapDispatchToProps = (dispatch) => ({
+  doLoadCurrentUserAndSettings: (onError) => dispatch(SessionActions.loadCurrentUserAndSettings(onError))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Authorize));

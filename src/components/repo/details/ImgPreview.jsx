@@ -1,4 +1,5 @@
 import "./ImgPreview.scss";
+
 import * as React from "react";
 
 export default class PdfPreview extends React.Component {
@@ -8,7 +9,6 @@ export default class PdfPreview extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 

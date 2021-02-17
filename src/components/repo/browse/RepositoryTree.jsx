@@ -1,15 +1,16 @@
 import "./RepositoryTree.scss";
-import * as ElementApi from 'api/ElementApi';
-import Tree from 'rc-tree';
 import 'rc-tree/assets/index.css';
+
+import * as ElementApi from 'api/ElementApi';
 import * as React from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+
 import { DIRECTORY_SEPARATOR } from 'utils/Constants';
 import Path from "utils/Path";
+import Tree from 'rc-tree';
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
 class RepositoryTree extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
@@ -20,6 +21,8 @@ class RepositoryTree extends React.Component {
       expandedKeys: []
     };
 
+    this.loadData(this.props.folderRef);
+
     this.onLoadData = this.onLoadData.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.onExpand = this.onExpand.bind(this);
@@ -27,14 +30,21 @@ class RepositoryTree extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.folderRef !== this.props.folderRef) {
-      ElementApi.parentsTree(this.props.folderRef, (data) => {
-        this.setState({
-          ...this.state,
-          treeData: [this.elementToNode(data)],
-          expandedKeys: this.props.path.split(DIRECTORY_SEPARATOR)
-        });
-      });
+      this.loadData(this.props.folderRef);
     }
+  }
+
+  loadData(folderRef) {
+    if (!folderRef)
+      return;
+    
+    ElementApi.parentsTree(folderRef, (data) => {
+      this.setState({
+        ...this.state,
+        treeData: [this.elementToNode(data)],
+        expandedKeys: this.props.path.split(DIRECTORY_SEPARATOR)
+      });
+    });
   }
 
   onLoadData(node) {
@@ -85,7 +95,7 @@ class RepositoryTree extends React.Component {
     if (!ref || isLeaf)
       return;
     
-    this.props.history.push(Path.repository + Path.browse(ref));
+    this.props.history.push(Path.repo + Path.browse(ref));
   }
 
   onExpand(expandedKeys) {
@@ -110,12 +120,10 @@ class RepositoryTree extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  folderRef: state.repository.browse.folderRef,
-  path: state.repository.browse.currentPath.refs
+  folderRef: state.repo.folder?.ref,
+  path: state.repo.path.refs
 });
 
-const mapDispatchToProps = (dispatch) => ({
-
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RepositoryTree));

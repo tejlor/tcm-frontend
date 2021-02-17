@@ -1,16 +1,15 @@
-import Card from "components/commons/Card";
 import * as React from "react";
+
+import Card from "components/commons/Card";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import { formatSize } from "utils/Utils";
+import { withRouter } from "react-router-dom";
 
 class FileProperties extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 
@@ -50,7 +49,7 @@ class FileProperties extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  element: state.repository.details.element
+  element: state.repo.element
 });
 
 const mapDispatchToProps = (dispatch) => ({

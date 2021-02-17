@@ -1,5 +1,5 @@
 import App from "./App";
-import reducers from "./reducers/reducers";
+import reducers from "./reducers/_reducers";
 import { unregister } from './serviceWorker';
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -20,4 +20,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-unregister();
+unregister(); // serviceWorker

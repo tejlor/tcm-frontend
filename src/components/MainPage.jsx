@@ -1,10 +1,10 @@
 import * as React from "react";
+
+import Path from "utils/Path";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import Path from "utils/Path";
 
 class MainPage extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
@@ -33,7 +33,7 @@ class MainPage extends React.Component {
   }
 
   redirectToRepositoryPage() {
-    this.props.history.push(Path.repository + Path.browse(this.props.rootRef));
+    this.props.history.push(Path.repo + Path.browse(this.props.rootRef));
   }
 
   render() {

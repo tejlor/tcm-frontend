@@ -1,15 +1,16 @@
-import Filter from "./Filter";
 import "./MenuBar.scss";
+
+import * as React from "react";
+
+import Filter from "./Filter";
 import NewFolder from "./NewFolder";
 import Options from "./Options";
 import OrderBy from "./OrderBy";
 import PasteOrCancel from "./PasteOrCancel";
 import Upload from "./Upload";
-import * as React from "react";
 import { connect } from "react-redux";
 
 class MenuBar extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
@@ -18,11 +19,13 @@ class MenuBar extends React.Component {
   }
   
   render() {
+    console.log(this.props.selectedAction);
     return (
       <div className="menu-bar-outer">
         <div className="w3-bar w3-light-grey menu-bar">
           <NewFolder parentRef={this.props.folderRef} />
-          {!this.props.selectedAction ?
+          {!this.props.selectedAction
+            ?
             <>
               <Upload parentRef={this.props.folderRef} />
               <Options />
@@ -39,12 +42,10 @@ class MenuBar extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  folderRef: state.repository.browse.folderRef,
-  selectedAction: state.repository.browse.selectedAction
+  folderRef: state.repo.folder?.ref,
+  selectedAction: state.table.selectedAction
 });
 
-const mapDispatchToProps = {
-
-};
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuBar);

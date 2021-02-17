@@ -1,13 +1,14 @@
-import * as RepositoryBrowseActions from "actions/repository/browse";
 import * as FolderApi from "api/FolderApi";
-import { Dialog, Row } from "components/commons/Dialog";
-import DialogMode from "enums/DialogMode";
 import * as React from "react";
+import * as TableActions from "actions/table";
+
+import { Dialog, Row } from "components/commons/Dialog";
+
+import DialogMode from "enums/DialogMode";
 import { connect } from "react-redux";
-import toastr from "react-redux-toastr";
+import {toastr} from "react-redux-toastr";
 
 class NewFolder extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
@@ -28,12 +29,14 @@ class NewFolder extends React.Component {
     });
   }
 
-  onClose() {
+  onClose(reload) {
     this.setState({
       ...this.state,
       dialogMode: DialogMode.HIDDEN
     });
-    this.props.doLoadContentList();
+    if (reload === true) {
+      this.props.doReloadTableRows();
+    }
   }
   
   render() {
@@ -49,11 +52,11 @@ class NewFolder extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  folderRef: state.repository.browse.folderRef
+  folderRef: state.repo.folder?.ref
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLoadContentList: () => dispatch(RepositoryBrowseActions.loadTableRows())
+  doReloadTableRows: () => dispatch(TableActions.reloadRows())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFolder);
@@ -62,9 +65,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(NewFolder);
 class NewFolderDialog extends React.Component {
 
   static defaultProps = {
-    parentRef: undefined,
+    parenRef: undefined,
     mode: DialogMode.HIDDEN,
-    onClose: () => { },
+    onClose: (reload) => { },
   };
 
   constructor(props) {
@@ -98,7 +101,7 @@ class NewFolderDialog extends React.Component {
     folder.parentRef = this.props.parentRef;
 
     FolderApi.create(folder, (data) => {
-      this.props.onClose();
+      this.props.onClose(true);
       toastr.success("Folder created successfully.");
     });
   }

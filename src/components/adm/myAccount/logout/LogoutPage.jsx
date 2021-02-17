@@ -1,11 +1,13 @@
-import * as SessionActions from "actions/session";
 import * as React from "react";
-import { connect } from "react-redux";
+import * as SessionActions from "actions/session";
+
 import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
+
 import Path from "utils/Path";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class LogoutPage extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props){
@@ -17,12 +19,12 @@ class LogoutPage extends React.Component {
   componentDidMount() {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(TOKEN_INFO_KEY);
-    this.props.doCurrentUserLoaded(null);
+    this.props.doClearSession();
     this.redirectToLoginPage();
   }
 
   redirectToLoginPage() {
-    this.props.history.push(Path.myAccount + Path.login);
+    this.props.history.push(Path.login);
   }
 
   render() {
@@ -30,14 +32,10 @@ class LogoutPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentUser: state.session.currentUser
-  };
-};
+const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = {
-  doCurrentUserLoaded: SessionActions.currentUserLoaded
-};
+const mapDispatchToProps = (dispatch) => ({
+  doClearSession: () => dispatch(SessionActions.clearSession)
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LogoutPage));

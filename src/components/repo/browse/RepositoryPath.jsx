@@ -1,12 +1,13 @@
 import"./RepositoryPath.scss"
+
 import * as React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+
 import { DIRECTORY_SEPARATOR } from "utils/Constants";
+import { Link } from "react-router-dom";
 import Path from "utils/Path";
+import { connect } from "react-redux";
 
 class RepositoryPath extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
@@ -23,11 +24,14 @@ class RepositoryPath extends React.Component {
 
     let elements = [<i className="fas fa-desktop" key={-1} />, "\u00A0"];
     for (let i = 0; i < refs.length; i++){
-      elements.push(<Link to={Path.repository + Path.browse(refs[i])} key={refs[i]} >{names[i]}</Link>);
       if (i < refs.length - 1) {
+        elements.push(<Link to={Path.repo + Path.browse(refs[i])} key={refs[i]} >{names[i]}</Link>);
         elements.push("\u00A0");
         elements.push(<i className="fas fa-angle-right" key={i} />);
         elements.push("\u00A0");
+      }
+      else {
+        elements.push(<span key={refs[i]} >{names[i]}</span>);
       }
     }
 
@@ -40,11 +44,9 @@ class RepositoryPath extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  path: state.repository.browse.currentPath
+  path: state.repo.path
 });
 
-const mapDispatchToProps = ({
-
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(RepositoryPath);

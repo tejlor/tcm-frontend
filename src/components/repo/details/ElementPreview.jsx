@@ -109,8 +109,8 @@ class ElementPreview extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  elementRef: state.repository.details.elementRef,
-  element: state.repository.details.element
+  elementRef: state.repo.element?.ref,
+  element: state.repo.element
 });
 
 const mapDispatchToProps = (dispatch) => ({

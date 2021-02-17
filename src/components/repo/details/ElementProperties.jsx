@@ -66,7 +66,7 @@ class ElementProperties extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  element: state.repository.details.element
+  element: state.repo.element
 });
 
 const mapDispatchToProps = (dispatch) => ({

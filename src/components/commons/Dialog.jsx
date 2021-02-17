@@ -1,3 +1,4 @@
+import "./Dialog.scss";
 import DialogMode from "enums/DialogMode";
 import * as React from "react";
 import DatePicker from "react-datepicker";

@@ -1,9 +1,11 @@
 import "./Upload.scss";
-import * as RepositoryBrowseActions from "actions/repository/browse";
+
 import * as FileApi from "api/FileApi";
+import * as React from "react";
+import * as TableActions from "actions/table";
+
 import { Dialog } from "components/commons/Dialog";
 import DialogMode from "enums/DialogMode";
-import * as React from "react";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 
@@ -34,7 +36,6 @@ class Upload extends React.Component {
       ...this.state,
       dialogMode: DialogMode.HIDDEN
     });
-    this.props.doLoadTableRows();
   }
   
   render() {
@@ -43,18 +44,18 @@ class Upload extends React.Component {
         <button className="w3-bar-item w3-button w3-border-right" onClick={this.onClick}>
           <i className="fas fa-upload"></i> Upload files
         </button>
-        <UploadDialog parentRef={this.props.folderRef} mode={this.state.dialogMode} onClose={this.onClose} />
+        <UploadDialog folderRef={this.props.folderRef} mode={this.state.dialogMode} onClose={this.onClose} onReload={this.props.doReloadTableRows} />
       </>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  folderRef: state.repository.browse.folderRef
+  folderRef: state.repo.folder?.ref
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLoadTableRows: () => dispatch(RepositoryBrowseActions.loadTableRows())
+  doReloadTableRows: () => dispatch(TableActions.reloadRows())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Upload);
@@ -65,7 +66,8 @@ class UploadDialog extends React.Component {
   static defaultProps = {
     parentRef: undefined,
     mode: DialogMode.HIDDEN,
-    onClose: () => { },
+    onReload: () => { },
+    onClose: () => { }
   };
 
   constructor(props) {
@@ -107,6 +109,7 @@ class UploadDialog extends React.Component {
         });
       },
       (data) => {
+        this.props.onReload();
         this.props.onClose();
         toastr.success("Files uploaded successfully.");
       });

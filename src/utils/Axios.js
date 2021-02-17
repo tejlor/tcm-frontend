@@ -1,9 +1,9 @@
+import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
+
+import Path from "utils/Path";
 import axios from "axios";
 import qs from "querystring";
 import { toastr } from "react-redux-toastr";
-import { ACCESS_TOKEN_KEY, TOKEN_INFO_KEY } from "utils/Constants";
-import Path from "utils/Path";
-
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -49,7 +49,7 @@ instance.interceptors.response.use(
     else if (error.response.status === 500) { // 500 - unknown exception
       handle500(error);
     }
-    return Promise.reject(error);
+    return new Promise(() => {});
   }
 );
 
@@ -59,7 +59,7 @@ function handle400(error) {
       toastr.warning("Warning", error.response.data.errorMessage);  
     }
     else {
-      // toastr.warning("Warning", "Unknown error. Code: 400");
+      toastr.warning("Warning", "Unknown error. Code: 400");
     }
   }
   else if(error.response.data.type === "application/json") { // blob is set, but maybe it's our json
@@ -108,13 +108,13 @@ function handle401(error) {
       .catch(err => { 
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(TOKEN_INFO_KEY);
-        window.location.href = Path.myAccount + Path.login;
+        window.location.href = Path.login;
       });
   }
   else {  // second time -> redirect to login page
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(TOKEN_INFO_KEY);
-    window.location.href = Path.myAccount + Path.login;
+    window.location.href = Path.login;
   }
 }
 

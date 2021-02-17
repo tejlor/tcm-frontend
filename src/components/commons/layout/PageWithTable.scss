@@ -1,0 +1,57 @@
+@import "src/scss/utils.scss";
+
+section.page-with-table {
+  margin-bottom: 20px;
+
+  header {
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0px;
+
+    h2 {
+      margin: 0px;
+      padding: 0px;
+      display: inline-block;
+    }
+
+    div.buttons {
+      float: right;
+      margin-top: 6px;
+
+      button {
+        font-weight: bold;
+        color: white;
+        height: 35px;
+        width: 35px;
+        background: $color8;
+        border-radius: 4px;
+        margin-left: 4px;
+        padding: 0px; 
+      }
+
+      div.filter {
+        display: inline-block;
+        vertical-align: middle;
+
+        i {
+          background: $color8;
+          color: white;
+          width: 35px;
+          height: 35px;
+          border-radius: 4px 0px 0px 4px; 
+          border: 1px solid $color8;
+          padding: 9px 0px 0px 10px;
+          vertical-align: middle;
+        }
+
+        input {
+          border: 1px solid $color8;
+          border-radius: 0px 4px 4px 0px; 
+          height: 35px;
+          padding: 0px 4px;
+          vertical-align: middle;
+          width: 180px;
+        }
+      }
+    }
+  }
+}

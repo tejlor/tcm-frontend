@@ -1,16 +1,19 @@
 import "./RepositoryTable.scss";
-import * as TableActions from "actions/repository/browse";
-import TableManual from "components/commons/table/TableManual";
-import fileIconVectorCatalog from "file-icon-vectors/dist/icons/classic/catalog.json";
+
+import * as ElementApi from "api/ElementApi";
 import * as React from "react";
-import { Checkbox } from "react-icheck";
-import { connect } from "react-redux";
-import {Link} from "react-router-dom";
-import Path from "utils/Path";
+import * as TableActions from "actions/table";
+
 import { calcFileExtension, formatTime } from "utils/Utils";
 
+import { Checkbox } from "react-icheck";
+import { Link } from "react-router-dom";
+import Path from "utils/Path";
+import TableManual from "components/commons/table/TableManual";
+import { connect } from "react-redux";
+import fileIconVectorCatalog from "file-icon-vectors/dist/icons/classic/catalog.json";
+
 class RepositoryTable extends React.Component {
-  
   static defaultProps = {};
 
   columns = [
@@ -25,54 +28,48 @@ class RepositoryTable extends React.Component {
       accessor: row => this.renderRow(row)
     },
   ];
+  order = [{ id: "name", desc: false }];
 
   constructor(props) {
     super(props);
     
     this.state = {};
 
-    this.loadTableRows = this.loadTableRows.bind(this);
     this.onReloadTableRows = this.onReloadTableRows.bind(this);
-    this.getPaginationProps = this.getPaginationProps.bind(this);
     this.onCheckedChange = this.onCheckedChange.bind(this);
   }
 
-  onReloadTableRows(state) {
-    this.loadTableRows(state.page);
-  }
-
-  loadTableRows(page) {  
-    let parentRef = this.props.parentRef;
-    if (!parentRef)
+  onReloadTableRows(tableState) {
+    if (!this.props.folderRef) 
       return;
-   
-    this.props.doLoadTableRows({
+  
+    this.props.doLoadRows(ElementApi.childrenTable.bind(this, this.props.folderRef), {
       ...this.props.tableParams,
-      pageNo: page
+      pageNo: tableState.page,
+      pageSize: tableState.pageSize,
     });
   }
 
   onCheckedChange(event, checked) {
-    this.props.doTableRowSelected(event.target.dataset.ref, checked);
+    this.props.doSelectRow(event.target.dataset.id, checked);
   }
 
   renderCheck(row) {
-    return <Checkbox checkboxClass="icheckbox_flat-blue" label="&nbsp;" checked={row.selected === true}
-      onChange={this.onCheckedChange} data-ref={row.ref} />;
+    return <Checkbox checkboxClass="icheckbox_flat-blue" label="&nbsp;" checked={row.selected === true} onChange={this.onCheckedChange} data-id={row.id} />;
   }
 
   renderRow(row) {
     let fileExtension, link;
     if (row.typeName === "Folder") {
       fileExtension = "folder";
-      link = <Link to={Path.repository + Path.browse(row.ref)}>{row.name}</Link>;
+      link = <Link to={Path.repo + Path.browse(row.ref)}>{row.name}</Link>;
     }
     else {
       fileExtension = calcFileExtension(row.name);
       if (!fileIconVectorCatalog.includes(fileExtension)) {
         fileExtension = "blank";
       }
-      link = <Link to={Path.repository + Path.details(row.ref)}>{row.name}</Link>;
+      link = <Link to={Path.repo + Path.details(row.ref)}>{row.name}</Link>;
     }
 
     return (
@@ -90,25 +87,13 @@ class RepositoryTable extends React.Component {
     );
   }
 
-  getPaginationProps() {
-    return {
-      rowCount: this.props.tableInfo.rowCount,
-      rowStart: this.props.tableInfo.rowStart,
-      rowEnd: this.props.tableInfo.rowEnd
-    };
-  }
-
   render() {
     return (
       <div className="repository-table">
         <TableManual
           columns={this.columns}
-          dataSet={this.props.rows}
-          pages={this.props.tableInfo.pageCount}
-          pageSize={10}
+          order={this.order}
           onReloadTableRows={this.onReloadTableRows}
-          loading={this.props.loading}
-          getPaginationProps={this.getPaginationProps}
         />
       </div>
     );
@@ -116,16 +101,14 @@ class RepositoryTable extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  folderRef: state.repository.browse.folderRef,
-  loading: state.repository.browse.tableLoading,
-  rows: state.repository.browse.tableRows,
-  tableParams: state.repository.browse.tableParams,
-  tableInfo: state.repository.browse.tableInfo
+  folderRef: state.repo.folder?.ref,
+  tableParams: state.table.tableParams,
+  tableInfo: state.table.tableInfo
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLoadTableRows: (tableParams) => dispatch(TableActions.loadTableRows(tableParams)),
-  doTableRowSelected: (ref, checked) => dispatch(TableActions.tableRowSelected(ref, checked))
+  doLoadRows: (method, tableParams) => dispatch(TableActions.loadRows(method, tableParams)),
+  doSelectRow: (id, selected) => dispatch(TableActions.selectRow(id, selected))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RepositoryTable);

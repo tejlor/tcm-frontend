@@ -1,5 +1,9 @@
 div.repository-table {
 
+  .rt-thead.-header {
+    display: none;
+  }
+
   div.icon {
     width: 80px;
     margin-right: 7px;

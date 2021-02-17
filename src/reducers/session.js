@@ -1,4 +1,4 @@
-import * as Action from "../actions/session";
+import * as Action from "actions/session";
 
 const initialState = {
   currentUser: undefined,         // logged user 
@@ -17,10 +17,7 @@ const reducer = (state = initialState, action) => {
     case Action.SETTINGS_LOADED: 
       return {
         ...state,
-        settings: action.settings.reduce((map, obj) => {
-            map[obj.name] = obj.value;
-            return map;
-          }, {})
+        settings: buildSettingsMap(action.settings)
       };
 
     default:
@@ -29,3 +26,14 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
+
+function buildSettingsMap(settings) {
+  if (settings === undefined) {
+    return undefined;
+  }
+  
+  return settings.reduce((map, obj) => {
+    map[obj.name] = obj.value;
+    return map;
+  }, {});
+}

@@ -1,10 +1,12 @@
+import "./RepositoryDetailsPage";
+
+import * as React from "react";
+import * as RepositoryDetailsActions from "actions/repo";
+
 import ElementPreview from "./ElementPreview";
 import ElementProperties from "./ElementProperties";
 import FileProperties from "./FileProperties";
-import "./RepositoryDetailsPage";
-import * as RepositoryDetailsActions from "actions/repository/details";
 import RepositoryPath from "components/repo/browse/RepositoryPath";
-import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -19,12 +21,12 @@ class RepositoryDetailsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.doSetElementRef(this.props.match.params.elementRef);
+    this.props.doSetElement(this.props.match.params.elementRef);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.elementRef !== this.props.match.params.elementRef) {
-      this.props.doSetElementRef(this.props.match.params.elementRef);
+      this.props.doSetElement(this.props.match.params.elementRef);
     }
   }
 
@@ -52,12 +54,12 @@ class RepositoryDetailsPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  elementRef: state.repository.details.elementRef,
-  element: state.repository.details.element
+  elementRef: state.repo.element?.ref,
+  element: state.repo.element
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doSetElementRef: (elementRef) => dispatch(RepositoryDetailsActions.setElementRef(elementRef))
+  doSetElement: (elementRef) => dispatch(RepositoryDetailsActions.setElement(elementRef))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RepositoryDetailsPage));

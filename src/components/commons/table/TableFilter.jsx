@@ -1,4 +1,4 @@
-import * as TableActions from "actions/repository/browse";
+import * as TableActions from "actions/repo";
 import * as React from "react";
 import { connect } from "react-redux";
 

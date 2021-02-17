@@ -1,12 +1,22 @@
-import * as RepositoryBrowseActions from "actions/repository/browse";
 import * as React from "react";
+import * as TableActions from "actions/table";
+
 import { connect } from "react-redux";
 
 class OrderBy extends React.Component {
-  
   static defaultProps = {};
 
   items = [
+    {
+      label: "Id",
+      property: "id",
+      asc: true
+    },
+    {
+      label: "Id",
+      property: "id",
+      asc: false
+    },
     {
       label: "Name",
       property: "name",
@@ -40,8 +50,7 @@ class OrderBy extends React.Component {
       sortBy: item.property,
       sortAsc: item.asc
     };
-
-    this.props.doLoadTableRows(_tableParams);
+    this.props.doReloadTableRows(_tableParams);
   }
   
   render() {
@@ -70,11 +79,11 @@ class OrderBy extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  tableParams: state.repository.browse.tableParams
+  tableParams: state.table.tableParams
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLoadTableRows: (tableParams) => dispatch(RepositoryBrowseActions.loadTableRows(tableParams))
+  doReloadTableRows: (tableParams) => dispatch(TableActions.reloadRows(tableParams))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderBy);

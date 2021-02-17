@@ -1,13 +1,13 @@
-import * as TableActions from 'actions/repository/browse';
 import * as ElementApi from "api/ElementApi";
 import * as FileApi from "api/FileApi";
-import FileSaver from "file-saver";
 import * as React from "react";
+import * as TableActions from 'actions/table';
+
+import FileSaver from "file-saver";
 import { connect } from "react-redux";
-import toastr from "react-redux-toastr";
+import { toastr } from "react-redux-toastr";
 
 class Options extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
@@ -22,11 +22,11 @@ class Options extends React.Component {
   }
 
   onCut() {
-    this.props.doActionSelected(this.getSelectedRefs(), 'move');
+    this.props.doSelectAction('move', this.getSelectedRefs());
   }
 
   onCopy() {
-    this.props.doActionSelected(this.getSelectedRefs(), 'copy');
+    this.props.doSelectAction('copy', this.getSelectedRefs());
   }
 
   onDelete() {
@@ -34,25 +34,24 @@ class Options extends React.Component {
       onOk: () => {
         ElementApi.remove(this.getSelectedRefs(), () => {
           toastr.success("Elements has been deleted.");
-          this.props.doLoadTableRows();
+          this.props.doReloadRows();
         });
       }
     });
   }
 
   onDownloadZip() {
-    FileApi.downloadAsZip(this.getSelectedRefs(), (data) => {
-      var blob = new Blob([data], { type: "application/zip" });
+    FileApi.downloadAsZip(this.getSelectedRefs(), (blob) => {
       FileSaver.saveAs(blob, `TCM_files.zip`);
     });
   }
   
   getSelectedRefs() {
-    return this.props.tableRows.filter(row => row.selected === true).map(row => row.ref);
+    return this.props.rows.filter(row => row.selected === true).map(row => row.ref);
   }
 
   render() {
-    if (this.props.tableRows.filter(row => row.selected === true).length === 0)
+    if (this.props.rows.filter(row => row.selected === true).length === 0)
       return null;
 
     return (
@@ -78,12 +77,12 @@ class Options extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  tableRows: state.repository.browse.tableRows
+  rows: state.table.rows
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLoadTableRows: () => dispatch(TableActions.loadTableRows()),
-  doActionSelected: (selectedRefs, action) => dispatch(TableActions.actionSelected(selectedRefs, action))
+  doReloadRows: () => dispatch(TableActions.reloadRows()),
+  doSelectAction: (action, actionRows) => dispatch(TableActions.selectAction(action, actionRows))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Options);

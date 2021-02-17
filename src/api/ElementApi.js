@@ -27,7 +27,6 @@ export function parentsTree(ref, onSuccess){
 }
 
 export function childrenTable(ref, params, onSuccess) {
-  console.log("3" + ref);
   axios
     .get(`${url}/${ref}/childrenTable`, {
       params: params

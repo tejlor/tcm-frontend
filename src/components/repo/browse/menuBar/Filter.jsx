@@ -1,10 +1,11 @@
 import "./Filter.scss";
-import * as RepositoryBrowseActions from "actions/repository/browse";
+
 import * as React from "react";
+import * as TableActions from "actions/table";
+
 import { connect } from "react-redux";
 
 class Filter extends React.Component {
-  
   static defaultProps = {};
 
   timeoutId = null;
@@ -35,7 +36,7 @@ class Filter extends React.Component {
       filter: this.state.filter
     };
 
-    this.props.doLoadContentList(_tableParams);
+    this.props.doReloadTableRows(_tableParams);
   }
 
   render() {
@@ -49,11 +50,11 @@ class Filter extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  tableParams: state.repository.browse.tableParams
+  tableParams: state.table.tableParams
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLoadContentList: (tableParams) => dispatch(RepositoryBrowseActions.loadTableRows(tableParams))
+  doReloadTableRows: (tableParams) => dispatch(TableActions.reloadRows(tableParams))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
