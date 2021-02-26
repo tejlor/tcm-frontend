@@ -1,5 +1,5 @@
-import * as AccountApi from "api/AccountApi";
-import * as SettingApi from "api/SettingApi";
+import * as AccountApi from "api/adm/AccountApi";
+import * as SettingApi from "api/adm/SettingApi";
 
 export function loadCurrentUserAndSettings(onError) {
   return (dispatch) => {

@@ -1,7 +1,7 @@
+import * as ElementApi from "api/repo/ElementApi";
+import * as FileApi from "api/repo/FileApi";
+import * as FolderApi from "api/repo/FolderApi";
 import * as TableActions from "actions/table";
-import * as ElementApi from "api/ElementApi";
-import * as FileApi from "api/FileApi";
-import * as FolderApi from "api/FolderApi";
 
 export function setFolder(folderRef) {
   return (dispatch) => {

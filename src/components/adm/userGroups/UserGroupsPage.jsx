@@ -1,30 +1,27 @@
 import * as React from "react";
 import * as TableActions from "actions/table";
-import * as UserApi from "api/adm/UserApi";
+import * as UserGroupApi from "api/adm/UserGroupApi";
 
 import PageWithTable from "components/commons/layout/PageWithTable";
 import TableManual from "components/commons/table/TableManual";
-import UserDialog from "./UserDialog";
+import UserGroupDialog from "./UserGroupDialog";
 import { connect } from "react-redux";
 
-class UsersPage extends React.Component {
+class UserGroupsPage extends React.Component {
   static defaultProps = {};
 
   columns = [
     {
-      Header: <span className="w3-left">First name</span>,
-      accessor: "firstName"
+      Header: <span className="w3-left">Name</span>,
+      accessor: "name"
     },
     {
-      Header: <span className="w3-left">Last name</span>,
-      accessor: "lastName"
-    },
-    {
-      Header: <span className="w3-left">E-mail</span>,
-      accessor: "email"
+      Header: <span className="w3-left">User count</span>,
+      accessor: "userCount",
+      width: 150
     }
   ];
-  order = [{ id: "lastName", desc: false }];
+  order = [{ id: "name", desc: false }];
 
   constructor(props) {
     super(props);
@@ -35,7 +32,7 @@ class UsersPage extends React.Component {
   }
 
   onReloadTableRows(tableState) {
-    this.props.doLoadRows(UserApi.table, {
+    this.props.doLoadRows(UserGroupApi.table, {
       pageNo: tableState.page,
       pageSize: tableState.pageSize,
       sortBy: tableState.sorted[0].id, 
@@ -46,13 +43,13 @@ class UsersPage extends React.Component {
 
   render() {
     return (
-      <PageWithTable title="Users" icon="fas fa-user-friends" onExportToXlsx={UserApi.exportToXlsx} >
+      <PageWithTable title="User groups" icon="fas fa-users" onExportToXlsx={UserGroupApi.exportToXlsx} >
         <TableManual
           columns={this.columns}
           order={this.order}
           onReloadTableRows={this.onReloadTableRows}
         />
-        <UserDialog />
+        <UserGroupDialog />
       </PageWithTable>
     );
   }
@@ -67,4 +64,4 @@ const mapDispatchToProps = (dispatch) => ({
   doLoadRows: (method, tableParams) => dispatch(TableActions.loadRows(method, tableParams)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UserGroupsPage);

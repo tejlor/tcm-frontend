@@ -1,4 +1,4 @@
-import * as FolderApi from "api/FolderApi";
+import * as FolderApi from "api/repo/FolderApi";
 import * as React from "react";
 import * as TableActions from "actions/table";
 

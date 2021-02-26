@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Link } from "react-router-dom";
 import Path from "utils/Path";
-import { path } from 'api/ElementApi';
 
 export default class Header extends React.Component {
 

@@ -8,6 +8,7 @@ const paths = {
   repo:             "/repo",
 
   users:            "/users",
+  userGroups:       "/userGroups",
   settings:         "/settings",
   
   browse: (folderRef) =>      "/browse/:folderRef".bind(":folderRef", folderRef),

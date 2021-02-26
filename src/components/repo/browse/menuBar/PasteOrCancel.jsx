@@ -1,4 +1,4 @@
-import * as ElementApi from "api/ElementApi";
+import * as ElementApi from "api/repo/ElementApi";
 import * as React from "react";
 import * as TableActions from 'actions/table';
 

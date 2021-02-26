@@ -1,9 +1,10 @@
-import ImgPreview from "./ImgPreview";
-import PdfPreview from "./PdfPreview";
-import * as FileApi from "api/FileApi";
+import * as FileApi from "api/repo/FileApi";
+import * as React from "react";
+
 import Card from "components/commons/Card";
 import FileSaver from "file-saver";
-import * as React from "react";
+import ImgPreview from "./ImgPreview";
+import PdfPreview from "./PdfPreview";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 

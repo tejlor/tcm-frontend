@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 class PageWithTable extends React.Component {
   static defaultProps = {
     title: "",
+    icon: "",
     onExportToXlsx: (blob) => { }
   };
   
@@ -60,7 +61,7 @@ class PageWithTable extends React.Component {
     return (
       <section className="w3-card w3-round w3-white w3-container page-with-table">
         <header>
-          <h2><i className="fas fa-user-friends" />{this.props.title}</h2>    
+          <h2><i className={this.props.icon} />{this.props.title}</h2>    
           <div className="buttons">
             <div className="filter">
               <i className="fas fa-search" />

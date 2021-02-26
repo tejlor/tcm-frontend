@@ -14,6 +14,7 @@ import Path from "utils/Path";
 import ReduxToastr from "react-redux-toastr";
 import RepositoryBrowsePage from "components/repo/browse/RepositoryBrowsePage";
 import RepositoryDetailsPage from "components/repo/details/RepositoryDetailsPage";
+import UsersGroupPage from "components/adm/userGroups/UserGroupsPage";
 import UsersPage from "components/adm/users/UsersPage";
 
 export default class App extends React.Component {
@@ -35,6 +36,9 @@ export default class App extends React.Component {
               </Route>
               <Route path={Path.adm + Path.users} exact>
                 <UsersPage />
+              </Route>
+              <Route path={Path.adm + Path.userGroups} exact>
+                <UsersGroupPage />
               </Route>
               <Route path={Path.repo + Path.browse()}>
                 <RepositoryBrowsePage />

@@ -1,6 +1,6 @@
 import "./Upload.scss";
 
-import * as FileApi from "api/FileApi";
+import * as FileApi from "api/repo/FileApi";
 import * as React from "react";
 import * as TableActions from "actions/table";
 

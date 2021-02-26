@@ -1,10 +1,13 @@
 import "./Dialog.scss";
-import DialogMode from "enums/DialogMode";
+
 import * as React from "react";
-import DatePicker from "react-datepicker";
-import { Checkbox } from "react-icheck";
-import Select from "react-select-v1";
+
 import { dateToMoment, null2Str } from "utils/Utils";
+
+import { Checkbox } from "react-icheck";
+import DatePicker from "react-datepicker";
+import DialogMode from "enums/DialogMode";
+import Select from "react-select-v1";
 
 export class Dialog extends React.Component {
   
@@ -65,6 +68,7 @@ export class Row extends React.Component {
     enabled: false,
     visible: true,
     options: undefined,
+    multi: false,
     textarea: false,
     calendar: false,
     checkbox: false,
@@ -95,6 +99,7 @@ class RowControl extends React.Component {
     enabled: false,
     pattern: undefined,
     options: undefined,
+    multi: false,
     textarea: false,
     calendar: false,
     checkbox: false,
@@ -103,13 +108,13 @@ class RowControl extends React.Component {
   };
 
   render() {
-    let { value, enabled, options, pattern, textarea, calendar, checkbox, raw, onChange} = this.props;
+    let { value, enabled, options, multi, pattern, textarea, calendar, checkbox, raw, onChange} = this.props;
 
     if (raw) {
       return <p>{value}</p>;
     }
     else if (options) {
-      return <Select value={value} options={options} onChange={onChange} disabled={!enabled} placeholder="Select" clearable={false} />;
+      return <Select value={value} options={options} multi={multi} onChange={onChange} disabled={!enabled} placeholder="Select" clearable={false} />;
     }
     else if (calendar) {
       var selectedDate = value ? dateToMoment(value) : null;

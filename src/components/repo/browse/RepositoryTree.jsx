@@ -1,7 +1,7 @@
 import "./RepositoryTree.scss";
 import 'rc-tree/assets/index.css';
 
-import * as ElementApi from 'api/ElementApi';
+import * as ElementApi from 'api/repo/ElementApi';
 import * as React from "react";
 
 import { DIRECTORY_SEPARATOR } from 'utils/Constants';
