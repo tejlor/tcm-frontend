@@ -56,3 +56,16 @@ export function remove(refs, onSuccess){
     .delete(`${url}/remove?refs=${refs.join(',')}`)
     .then((res) => onSuccess(res.data));
 }
+
+export function getAccessRights(ref, onSuccess){
+  axios
+    .get(`${url}/${ref}/accessRights`)
+    .then((res) => onSuccess(res.data));
+}
+
+export function saveAccessRights(ref, data, onSuccess) {
+  console.log(data);
+  axios
+    .post(`${url}/${ref}/accessRights`, data)
+    .then((res) => onSuccess(res.data));
+}

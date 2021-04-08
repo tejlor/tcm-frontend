@@ -5,10 +5,10 @@ export function loadCurrentUserAndSettings(onError) {
   return (dispatch) => {
     AccountApi.getCurrentUser((data) => { 
       dispatch(currentUserLoaded(data));
+      SettingApi.getSafe((data) => {
+        dispatch(settingsLoaded(data));
+      });
     }, onError);
-    SettingApi.getSafe((data) => {
-      dispatch(settingsLoaded(data));
-    })
   }
 }
 

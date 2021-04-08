@@ -1,8 +1,15 @@
 div.card {
   margin: 0px 0px 16px 0px;
 
+  h3 {
+    i {
+      margin: 4px;
+    }
+  }
+
   div.opener {
     width: 50px;
+    text-align: right;
 
     i {
       cursor: pointer;
@@ -24,9 +31,14 @@ div.card {
     
     div.body {
       max-height: 1000px;
+      overflow: visible;
+      animation: 1s delay-overflow;
+    }
+
+    @keyframes delay-overflow {
+      from { overflow: hidden; }
     }
   }
- 
 }
 
 .w3-row .left .card {
