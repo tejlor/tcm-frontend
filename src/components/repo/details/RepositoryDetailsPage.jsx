@@ -4,6 +4,7 @@ import * as React from "react";
 import * as RepositoryDetailsActions from "actions/repo";
 
 import ElementAccessRights from "./ElementAccessRights";
+import ElementFeatures from "./ElementFeatures";
 import ElementPreview from "./ElementPreview";
 import ElementProperties from "./ElementProperties";
 import FileProperties from "./FileProperties";
@@ -44,6 +45,7 @@ class RepositoryDetailsPage extends React.Component {
               <ElementProperties />
               <FileProperties />
               <ElementAccessRights />
+              <ElementFeatures />
             </div>
             <div className="w3-col m6 right">
               <ElementPreview />

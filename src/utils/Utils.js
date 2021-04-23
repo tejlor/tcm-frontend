@@ -80,12 +80,12 @@ export function formatSize(value) {
 const DATE_FORMAT = "YYYY-MM-DD";
 const TIME_FORMAT = "HH:mm";
 
-export function dateToMoment(str) {
-  return moment(str, "YYYY-MM-DD");
+export function strToDate(str) {
+  return new Date(str);
 }
 
-export function timeToMoment(str) {
-  return moment(str, "YYYY-MM-DDTHH:mm:ss");
+export function strToTime(str) {
+  return new Date(str);
 }
 
 export function formatDate(date) {
@@ -94,10 +94,16 @@ export function formatDate(date) {
   }
 
   if (typeof date === "object") {
-    return date.format(DATE_FORMAT);
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth() + 1).toString();
+    let day = date.getDate().toString();
+    if (month.length == 1) {
+      month = '0' + month;
+    }
+    return `${year}-${month}-${day}`;
   }
 
-  return dateToMoment(date).format(DATE_FORMAT);
+  return "?";
 }
 
 export function formatTime(time) {
@@ -108,17 +114,7 @@ export function formatTime(time) {
   if (typeof time === "object") {
     return time.format(TIME_FORMAT);
   }
-
-  var moment = timeToMoment(time);
-  return moment.format(DATE_FORMAT) + "\u00A0" + moment.format(TIME_FORMAT);
+  
+  return "?";
 }
 
-export function formatPeriod(start, end) {
-  return dateToMoment(start).format("DD-MM") + " to " + dateToMoment(end).format("DD-MM");
-}
-
-export function durationInDays(startDate, endDate){ 
-  let endMoment = moment.utc(endDate, "YYYY-MM-DD");
-  let startMoment = moment.utc(startDate, "YYYY-MM-DD");
-  return moment.duration(endMoment.diff(startMoment)).asDays() + 1;
-}

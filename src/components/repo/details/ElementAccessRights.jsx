@@ -4,9 +4,9 @@ import * as ElementApi from "api/repo/ElementApi";
 import * as React from "react";
 
 import Card from "components/commons/Card";
+import CardMode from "enums/CardMode";
 import { Checkbox } from "react-icheck";
 import If from "components/commons/utils/If";
-import { MAX_INT } from "utils/Constants";
 import UserGroupSelect from "components/commons/UserGroupSelect";
 import UserSelect from "components/commons/UserSelect";
 import { connect } from "react-redux";
@@ -59,14 +59,13 @@ class ElementAccessRights extends React.Component {
         accessRights: data,
         originalAccessRights: data
       });
-      toastr.success("Access rights was saved.");
+      toastr.success("Access rights were saved.");
     });
   }
 
   onChange(accessRight, move) {
     let _accessRights = [...this.state.accessRights];
     if (move) {
-      let index = _accessRights.findIndex(ar => ar.orderNo === accessRight.orderNo);
       _accessRights = _accessRights.filter(ar => ar.orderNo !== accessRight.orderNo);
       _accessRights.splice(accessRight.orderNo + move, 0, accessRight);
     }
@@ -110,14 +109,14 @@ class ElementAccessRights extends React.Component {
 
   onCardEditModeChange(editMode) {
     switch (editMode) {
-      case 'edit':
+      case CardMode.EDIT:
         this.setState({
           ...this.state,
           editable: true
         });
         break;
       
-      case 'cancel':
+      case CardMode.CANCEL:
         this.setState({
           ...this.state,
           editable: false,
@@ -125,7 +124,7 @@ class ElementAccessRights extends React.Component {
         });
         break;
       
-      case 'save':
+      case CardMode.SAVE:
         this.setState({
           ...this.state,
           editable: false

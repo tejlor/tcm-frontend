@@ -5,6 +5,7 @@ import * as React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Authorize from "components/commons/layout/Authorize";
+import FeaturesPage from "components/repo/features/FeaturesPage";
 import Footer from "components/commons/layout/Footer";
 import Header from "components/commons/layout/Header";
 import LoginPage from "components/adm/myAccount/login/LoginPage";
@@ -45,6 +46,9 @@ export default class App extends React.Component {
               </Route>
               <Route path={Path.repo + Path.details()}>
                 <RepositoryDetailsPage />
+              </Route>
+              <Route path={Path.repo + Path.features} exact>
+                <FeaturesPage />
               </Route>
             </div>
             <Footer />

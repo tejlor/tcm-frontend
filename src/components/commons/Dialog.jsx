@@ -2,7 +2,7 @@ import "./Dialog.scss";
 
 import * as React from "react";
 
-import { dateToMoment, null2Str } from "utils/Utils";
+import { null2Str, strToDate } from "utils/Utils";
 
 import { Checkbox } from "react-icheck";
 import DatePicker from "react-datepicker";
@@ -117,7 +117,7 @@ class RowControl extends React.Component {
       return <Select value={value} options={options} multi={multi} onChange={onChange} disabled={!enabled} placeholder="Select" clearable={false} />;
     }
     else if (calendar) {
-      var selectedDate = value ? dateToMoment(value) : null;
+      var selectedDate = value ? strToDate(value) : null;
       return (
         <DatePicker
           dateFormat="YYYY-MM-DD"

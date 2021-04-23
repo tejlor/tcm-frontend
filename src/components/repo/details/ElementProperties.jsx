@@ -1,16 +1,15 @@
-import Card from "components/commons/Card";
 import * as React from "react";
+
+import Card from "components/commons/Card";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import { formatTime } from "utils/Utils";
+import { withRouter } from "react-router-dom";
 
 class ElementProperties extends React.Component {
-  
   static defaultProps = {};
 
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 

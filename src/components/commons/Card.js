@@ -2,6 +2,7 @@ import "./Card.scss";
 
 import * as React from "react";
 
+import CardMode from "enums/CardMode";
 import If from "./utils/If";
 
 export default class Card extends React.Component {
@@ -39,7 +40,7 @@ export default class Card extends React.Component {
       ...this.state,
       editMode: !this.state.editMode
     });
-    this.props.onEditModeChange('edit');
+    this.props.onEditModeChange(CardMode.EDIT);
   }
 
   onSaveClick() {
@@ -47,7 +48,7 @@ export default class Card extends React.Component {
       ...this.state,
       editMode: false
     });
-    this.props.onEditModeChange('save');
+    this.props.onEditModeChange(CardMode.SAVE);
   }
 
   onCancelClick() {
@@ -55,7 +56,7 @@ export default class Card extends React.Component {
       ...this.state,
       editMode: false
     });
-    this.props.onEditModeChange('cancel');
+    this.props.onEditModeChange(CardMode.CANCEL);
   }
 
   render() {

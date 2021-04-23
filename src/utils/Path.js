@@ -10,6 +10,7 @@ const paths = {
   users:            "/users",
   userGroups:       "/userGroups",
   settings:         "/settings",
+  features:         "/features",
   
   browse: (folderRef) =>      "/browse/:folderRef".bind(":folderRef", folderRef),
   details: (elementRef) =>    "/details/:elementRef".bind(":elementRef", elementRef),

@@ -51,9 +51,27 @@ export function copy(data, onSuccess) {
     .then((res) => onSuccess(res.data));
 }
 
-export function remove(refs, onSuccess){
+export function remove(refs, onSuccess) {
   axios
     .delete(`${url}/remove?refs=${refs.join(',')}`)
+    .then((res) => onSuccess(res.data));
+}
+
+export function addFeature(ref, featureId, onSuccess) {
+  axios
+    .post(`${url}/${ref}/features/${featureId}`)
+    .then((res) => onSuccess(res.data));
+}
+
+export function getFetureValues(ref, featureId, onSuccess) {
+  axios
+    .get(`${url}/${ref}/features/${featureId}`)
+    .then((res) => onSuccess(res.data));
+}
+
+export function saveFeatureValues(ref, data, onSuccess) {
+  axios
+    .post(`${url}/${ref}/features`, data)
     .then((res) => onSuccess(res.data));
 }
 
@@ -64,7 +82,6 @@ export function getAccessRights(ref, onSuccess){
 }
 
 export function saveAccessRights(ref, data, onSuccess) {
-  console.log(data);
   axios
     .post(`${url}/${ref}/accessRights`, data)
     .then((res) => onSuccess(res.data));

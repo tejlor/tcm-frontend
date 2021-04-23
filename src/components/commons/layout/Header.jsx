@@ -2,16 +2,25 @@ import * as React from 'react';
 
 import { Link } from "react-router-dom";
 import Path from "utils/Path";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-export default class Header extends React.Component {
+class Header extends React.Component {
 
   render(){
     return (
       <div className="w3-top">
         <div className="w3-bar w3-theme-d2 w3-left-align w3-large">
           <a href="/" className="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i className="fa fa-home w3-margin-right"></i>Logo</a>
-          <Link to={Path.repo + Path.browse('')} className="w3-bar-item w3-button w3-padding-large w3-hover-white" title="News"><i className="fa fa-globe"></i></Link>
-          <Link to={Path.adm + Path.users} className="w3-bar-item w3-button w3-padding-large w3-hover-white" title="Account Settings"><i className="fa fa-user"></i></Link>
+          <Link to={Path.repo + Path.browse(this.props.rootRef)} className="w3-bar-item w3-button w3-padding-large w3-hover-white" title="News">
+            <i className="fa fa-globe"></i>
+          </Link>
+          <Link to={Path.repo + Path.features} className="w3-bar-item w3-button w3-padding-large w3-hover-white" title="Element Features">
+            <i className="far fa-file-code"></i>
+          </Link>
+          <Link to={Path.adm + Path.users} className="w3-bar-item w3-button w3-padding-large w3-hover-white" title="Account Settings">
+            <i className="fa fa-user"></i>
+          </Link>
           <a href="/" className="w3-bar-item w3-button w3-padding-large w3-hover-white" title="Messages"><i className="fa fa-envelope"></i></a>
           <div className="w3-dropdown-hover">
             <button className="w3-button w3-padding-large" title="Notifications"><i className="fa fa-bell"></i><span className="w3-badge w3-right w3-small w3-green">3</span></button>
@@ -29,3 +38,11 @@ export default class Header extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  rootRef: state.session.settings.root_ref
+});
+
+const mapDispatchToProps = (dispatch) => ({});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
